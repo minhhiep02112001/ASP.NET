@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Models.EntityFramework;
+namespace Models.DAL
+{
+    public class DAL_Slides
+    {
+        protected ShopQuanAoDBContext context { get; set; }
+        public DAL_Slides()
+        {
+            this.context = new ShopQuanAoDBContext();
+        }
+
+        public  List<SLIDE> GetPageSlides(int page, int itemsPerPage, out int totalCount)
+        {
+            var list = new List<SLIDE>();
+            var arrSanPham = this.context.SLIDEs.Select(a => a).OrderBy(c => c.NGAY_DANG).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+            foreach (var item in arrSanPham)
+            {
+                list.Add(item);
+            }
+            totalCount = this.context.SLIDEs.Count();
+            return list;
+        }
+        
+        public bool sqlQueryFristOrDefault(string sql)
+        {
+            var sp = this.context.SLIDEs.SqlQuery(sql).FirstOrDefault();
+            if (sp != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool InsertSlides(SLIDE slide)
+        {
+            try
+            {
+                slide.NGAY_DANG = DateTime.Now;
+                slide.NOI_BAT = false;
+                slide.TRANG_THAI = false;
+                this.context.SLIDEs.Add(slide);
+                this.context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool EditSlides(int id , SLIDE slide)
+        {
+            try
+            {
+                var sl = this.context.SLIDEs.Find(id);
+                if(sl != null)
+                {
+                    sl.TIEU_DE = slide.TIEU_DE;
+                    sl.LINK = slide.LINK;
+                    sl.STT = slide.STT;
+                    sl.IMAGES = slide.IMAGES;
+                    this.context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public SLIDE returnSlides(int id)
+        {
+            return this.context.SLIDEs.Find(id);
+        }
+    }
+}

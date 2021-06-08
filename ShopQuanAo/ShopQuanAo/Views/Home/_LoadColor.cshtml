@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Models.EntityFramework.COLOR>
+
+@foreach (var item in Model)
+{
+    <label class="radio-image " title="@item.TEN_MAU">
+        <input type="radio" class="image-color" value="1" name="image-color">
+        <img src="@item.IMAGES" class="image-color-details" alt="@item.TEN_MAU">
+    </label>
+}

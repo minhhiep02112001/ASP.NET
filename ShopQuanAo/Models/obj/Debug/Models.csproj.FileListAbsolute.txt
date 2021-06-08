@@ -1,0 +1,16 @@
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\Models.dll.config
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\Models.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\Models.pdb
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\EntityFramework.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\EntityFramework.SqlServer.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\EntityFramework.xml
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\EntityFramework.SqlServer.xml
+D:\ASP.NET_MVC\ShopQuanAo\Models\obj\Debug\Models.csprojAssemblyReference.cache
+D:\ASP.NET_MVC\ShopQuanAo\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+D:\ASP.NET_MVC\ShopQuanAo\Models\obj\Debug\Models.csproj.CopyComplete
+D:\ASP.NET_MVC\ShopQuanAo\Models\obj\Debug\Models.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\obj\Debug\Models.pdb
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.dll
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.xml
+D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.xml

@@ -1,0 +1,268 @@
+﻿@model Models.EntityFramework.SAN_PHAM
+
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section cssHeader{
+    <style>
+
+        input.image-color {
+            position: absolute;
+            opacity: 0;
+            top: 0px;
+        }
+
+        img.image-color-details {
+            width: calc(100% - 4px) !important;
+            height: calc(100% - 4px);
+        }
+
+        label.radio-image {
+            box-sizing: border-box;
+            border: 1px solid;
+            width: calc(20% - 1%);
+            height: 5rem;
+            padding: 2px;
+            margin-top: 5px;
+        }
+
+            label.radio-image:hover {
+                border: 2px solid black;
+            }
+    </style>
+}
+
+@section jsFooter{
+    <script>
+
+        $(document).ready(function () {
+            $(".image-color:first").prop('checked', true);
+            $(".image-color:first").parent().css("border", "2px solid red");
+            $(".radio-image").click(function (even) {
+                even.preventDefault();
+                $(".radio-image").css("border", "1px solid");
+                $(this).css("border", "2px solid red");
+                $(this).find('.image-color').prop('checked', true);
+            });
+            $(".prod-add").click(function (even) {
+                even.preventDefault();
+                var checkbox = $(".image-color");
+                for (var i = 0; i < checkbox.length; i++) {
+                    if (checkbox[i].checked === true) {
+                        console.log(checkbox[i].value);
+                    }
+                }
+              
+            });
+
+            $(".prod-plus").click(function (event) {
+                event.preventDefault();
+                console.
+            });
+        });
+
+    </script>
+}
+
+    <section class="container">
+
+
+        <ul class="b-crumbs" style=" margin-bottom:2rem;">
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="catalog-list.html">
+                    Catalog
+                </a>
+            </li>
+            <li>
+                <a href="catalog-list.html">
+                    Women
+                </a>
+            </li>
+            <li>
+                <span>Aperiam nihil veniam</span>
+            </li>
+        </ul>
+        
+        <!-- Single Product - start -->
+        <div class="prod-wrap">
+
+            <!-- Product Images -->
+
+            @Html.Action("LoadImageProductDetalis", "Home", new { id = Model.MA_SP })
+
+
+            <!-- Product Description/Info -->
+            <div class="prod-cont">
+                <h1 class="main-ttl"><span>@Model.TEN_SP</span></h1>
+
+                <div class="prod-skuwrap">
+                    <div style="margin-bottom:1rem">
+                        <span class="prod-skuttl">Giá Bán : </span> <b>@String.Format("{0:0,0}", Model.GIA_BAN)</b><sup>vnđ</sup>
+                    </div>
+                    <div style="margin-bottom:1rem">
+                        <span class="prod-skuttl">Đơn vị tính  : </span> @Model.DON_VI_TINH
+                    </div>
+                    <p class="prod-skuttl">Color : </p>
+                    <div class="image-color-product" style="margin-bottom:1rem;">
+
+                        @Html.Action("LoadColor", "Home", new { id = Model.MA_SP })
+                    </div>
+
+
+                    <p class="prod-skuttl">Size : </p>
+                    <div class="offer-props-select" style="margin-bottom:0px;">
+                        <div class="form-group">
+                            <select class="form-control" id="sel1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="prod-info">
+
+                    <p class="prod-qnt">
+                        <input value="1" id="quatity" type="number" min="1" style="float: left; width: 60px; height: 39px; font-weight: 700; font-size: 14px; color: #373d54; text-align: center; display: block; margin: 0 2px 0 0; background: #f8fafc; border: 1px solid #e0e4f6">
+
+                    </p>
+                    <p class="prod-addwrap">
+                        <a href="#" class="prod-add" rel="nofollow">Add to cart</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="prod-tabs-wrap">
+                <ul class="prod-tabs">
+                    <li><a data-prodtab-num="1" class="active" href="#" data-prodtab="#prod-tab-1">Mô Tả</a></li>
+                    <li><a data-prodtab-num="2" href="#" data-prodtab="#prod-tab-2">Chi Tiết</a></li>
+                    <li><a data-prodtab-num="3" href="#" data-prodtab="#prod-tab-3">Đánh Giá</a></li>
+                </ul>
+                <div class="prod-tab-cont">
+
+                    <p data-prodtab-num="1" class="prod-tab-mob active" data-prodtab="#prod-tab-1">Mô tả</p>
+                    <div class="prod-tab stylization" id="prod-tab-1">
+                        <p>Quis temporibus hic reprehenderit explicabo odio earum maxime cupiditate mollitia magni laboriosam illum adipisci, ipsam, repellendus optio esse dolorem incidunt debitis eius voluptate expedita assumenda. Praesentium iure inventore nostrum corporis illum, est asperiores accusamus, ducimus, accusantium natus illo</p>
+                        <p>Ad officiis omnis eaque, tempora quidem, vel, esse quasi qui sed rem provident ea autem accusamus? Aspernatur excepturi rem illo amet sapiente non repellat debitis dignissimos quod, accusamus corrupti consectetur optio maiores, sint aliquam. Veniam, non harum voluptate dicta sit porro iste cumque eligendi placeat ea voluptatem deserunt quam quo facere! Libero vitae rem dolore placeat quae, magni voluptate maiores nemo ullam temporibus adipisci perferendis laboriosam illo ipsam quia numquam, ipsum delectus at vel error iure aspernatur</p>
+                    </div>
+                    <p data-prodtab-num="2" class="prod-tab-mob" data-prodtab="#prod-tab-2">Chi Tiết</p>
+                    <div class="prod-tab prod-tab-articles" id="prod-tab-2">
+                        @Html.Raw(Model.MO_TA_CHI_TIET)
+                    </div>
+                    <p data-prodtab-num="3" class="prod-tab-mob" data-prodtab="#prod-tab-3">Đánh Giá</p>
+                    <div class="prod-tab" id="prod-tab-3">
+                        <ul class="reviews-list">
+                            <li class="reviews-i existimg">
+                                <div class="reviews-i-img">
+                                    <img src="http://placehold.it/120x120" alt="Averill Sidony">
+                                    <div class="reviews-i-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <time datetime="2017-12-21 12:19:46" class="reviews-i-date">21 May 2017</time>
+                                </div>
+                                <div class="reviews-i-cont">
+                                    <p>Numquam aliquam maiores ratione dolores ducimus, laborum hic similique delectus. Neque saepe nobis omnis laudantium itaque tempore voluptate harum error, illum nemo, reiciendis architecto, quam tenetur amet sit quisquam cum.<br>Pariatur cum tempore eius nulla impedit cumque odit quos porro iste a voluptas, optio alias voluptate minima distinctio facere aliquid quasi, vero illum tenetur sed temporibus eveniet obcaecati.</p>
+                                    <span class="reviews-i-margin"></span>
+                                    <h3 class="reviews-i-ttl">Averill Sidony</h3>
+                                    <p class="reviews-i-showanswer"><span data-open="Show answer" data-close="Hide answer">Show answer</span> <i class="fa fa-angle-down"></i></p>
+                                </div>
+                                <div class="reviews-i-answer">
+                                    <p>
+                                        Thanks for your feedback!<br>
+                                        Nostrum voluptate autem, eaque mollitia sed rem cum amet qui repudiandae libero quaerat veniam accusantium architecto minima impedit. Magni illo illum iure tempora vero explicabo, esse dolores rem at dolorum doloremque iusto laboriosam repellendus. <br>Numquam eius voluptatum sint modi nihil exercitationem dolorum asperiores maiores provident repellat magnam vitae, consequatur omnis expedita, accusantium voluptas odit id.
+                                    </p>
+                                    <span class="reviews-i-margin"></span>
+                                </div>
+                            </li>
+                            <li class="reviews-i existimg">
+                                <div class="reviews-i-img">
+                                    <img src="http://placehold.it/120x120" alt="Araminta Kristeen">
+                                    <div class="reviews-i-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <time datetime="2017-12-21 12:19:46" class="reviews-i-date">14 February 2017</time>
+                                </div>
+                                <div class="reviews-i-cont">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                    <span class="reviews-i-margin"></span>
+                                    <h3 class="reviews-i-ttl">Araminta Kristeen</h3>
+                                    <p class="reviews-i-showanswer"><span data-open="Show answer" data-close="Hide answer">Show answer</span> <i class="fa fa-angle-down"></i></p>
+                                </div>
+                                <div class="reviews-i-answer">
+                                    Benjy, hi!<br>
+                                    Officiis culpa quos, quae optio quia.<br>
+                                    Amet sunt dolorem tempora, pariatur earum quidem adipisci error voluptates tempore iure, nobis optio temporibus voluptatum delectus natus accusamus incidunt provident sapiente explicabo vero labore hic quo?
+                                    <span class="reviews-i-margin"></span>
+                                </div>
+                            </li>
+                            <li class="reviews-i">
+                                <div class="reviews-i-cont">
+                                    <time datetime="2017-12-21 12:19:46" class="reviews-i-date">21 May 2017</time>
+                                    <div class="reviews-i-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                    <span class="reviews-i-margin"></span>
+                                    <h3 class="reviews-i-ttl">Jeni Margie</h3>
+                                    <p class="reviews-i-showanswer"><span data-open="Show answer" data-close="Hide answer">Show answer</span> <i class="fa fa-angle-down"></i></p>
+                                </div>
+                                <div class="reviews-i-answer">
+                                    Hello, Jeni Margie!<br>
+                                    Nostrum voluptate autem, eaque mollitia sed rem cum amet qui repudiandae libero quaerat veniam accusantium architecto minima impedit. Magni illo illum iure tempora vero explicabo, esse dolores rem at dolorum doloremque iusto laboriosam repellendus. <br>Numquam eius voluptatum sint modi nihil exercitationem dolorum asperiores maiores provident repellat magnam vitae, consequatur omnis expedita, accusantium voluptas odit id.
+                                    <span class="reviews-i-margin"></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="prod-comment-form">
+                            <h3>Add your review</h3>
+                            <form method="POST" action="#">
+                                <input type="text" placeholder="Name">
+                                <input type="text" placeholder="E-mail">
+                                <textarea placeholder="Your review"></textarea>
+                                <div class="prod-comment-submit">
+                                    <input type="submit" value="Submit">
+                                    <div class="prod-rating">
+                                        <i class="fa fa-star-o" title="5"></i><i class="fa fa-star-o" title="4"></i><i class="fa fa-star-o" title="3"></i><i class="fa fa-star-o" title="2"></i><i class="fa fa-star-o" title="1"></i>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Single Product - end -->
+        <!-- Related Products - start -->
+        <div class="prod-related">
+            <h2><span>Sản Phẩm Nổi Bật</span></h2>
+            <div class="prod-related-car" id="prod-related-car">
+                <ul class="slides">
+                    @Html.Action("LoadProductNoiBat", "Home")
+                </ul>
+            </div>
+        </div>
+        <!-- Related Products - end -->
+
+    </section>

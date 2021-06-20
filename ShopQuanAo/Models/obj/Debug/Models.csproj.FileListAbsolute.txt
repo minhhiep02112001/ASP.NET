@@ -14,3 +14,19 @@ D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.dll
 D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.dll
 D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.xml
 D:\ASP.NET_MVC\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.xml
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\Models.dll.config
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\Models.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\Models.pdb
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\EntityFramework.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\PagedList.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\EntityFramework.xml
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\PagedList.xml
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\bin\Debug\PagedList.Mvc.xml
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\obj\Debug\Models.csprojAssemblyReference.cache
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\obj\Debug\Models.csproj.CopyComplete
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\obj\Debug\Models.dll
+C:\Users\Minh Hiep\OneDrive\Máy tính\ASP.NET\ShopQuanAo\Models\obj\Debug\Models.pdb

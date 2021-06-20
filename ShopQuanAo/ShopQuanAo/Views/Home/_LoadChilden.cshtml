@@ -4,12 +4,11 @@
 {
     <i class="fa fa-angle-right"></i>
     <ul>
-
         @foreach (var item in Model)
         {
         <li>
 
-            @Html.RouteLink(item.TEN_LOAI_SP, new { action = "DanhMuc", id = item.SLUG })
+            @Html.RouteLink(item.TEN_LOAI_SP, new {controller = "Home" , action = "DanhMuc", id = item.SLUG })
             @Html.Action("LoadChilden", "Home", new { parentID = item.ID_LOAI_SP })
         </li>
         }

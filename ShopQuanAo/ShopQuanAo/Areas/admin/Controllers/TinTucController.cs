@@ -77,8 +77,12 @@ namespace ShopQuanAo.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "SLUG,TIEU_DE,MO_TA,NOI_DUNG")] BAI_VIET tintuc)
+        public ActionResult Create([Bind(Include = "SLUG,TIEU_DE,MO_TA,NOI_DUNG ")] BAI_VIET tintuc)
         {
+
+
+            tintuc.NOI_BAT = Request.Form["NoiBat"].Contains("true") ? true : false ;
+            tintuc.TRANG_THAI = Request.Form["HienThi"].Contains("true") ? true : false;
             var sql = "SELECT * FROM BAI_VIET WHERE SLUG = '"+tintuc.SLUG+"';";     
             if (ModelState.IsValid)
             {
@@ -139,13 +143,16 @@ namespace ShopQuanAo.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "MA_BV,SLUG,TIEU_DE,MO_TA,NOI_DUNG")] BAI_VIET tintuc)
+        public ActionResult Edit([Bind(Include = "MA_BV,SLUG,TIEU_DE,MO_TA,NOI_DUNG ")] BAI_VIET tintuc)
         {
 
             try
             {
-               
-                    var sql = "SELECT * FROM BAI_VIET WHERE MA_BV != '"+tintuc.MA_BV+"' AND SLUG = '" + tintuc.SLUG + "';";
+
+                tintuc.NOI_BAT = Request.Form["NoiBat"].Contains("true") ? true : false;
+                tintuc.TRANG_THAI = Request.Form["HienThi"].Contains("true") ? true : false;
+
+                var sql = "SELECT * FROM BAI_VIET WHERE MA_BV != '"+tintuc.MA_BV+"' AND SLUG = '" + tintuc.SLUG + "';";
                     if (ModelState.IsValid)
                     {
                         var old_img = this.dalTinTuc.returnBaiViet(tintuc.MA_BV).IMAGES;

@@ -55,7 +55,7 @@
                                 <label for="email-input" class=" form-control-label">Slug :</label>
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.SLUG, new { htmlAttributes = new { @readonly= "readonly", @class = "slug form-control" } })
+                                @Html.EditorFor(model => model.SLUG, new { htmlAttributes = new { @readonly = "readonly", @class = "slug form-control" } })
                                 @Html.ValidationMessageFor(model => model.SLUG, "", new { @class = "help-block form-text text-danger" })
                             </div>
                         </div>
@@ -67,10 +67,10 @@
                                 <div class="form-group ">
                                     <input type="file" name="images" id="images" class="file-upload-default-image" style="position: absolute ; visibility: hidden;">
                                     <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info"  disabled="" placeholder="Upload Image">
+                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
 
                                         <span class="input-group-append">
-                                            <button class="file-upload-image btn btn-primary"  type="button">Upload</button>
+                                            <button class="file-upload-image btn btn-primary" type="button">Upload</button>
                                         </span>
                                     </div>
                                     <small class="validate validate-images text-danger form-text "></small>
@@ -103,8 +103,22 @@
 
                             </div>
                         </div>
-
-
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Nổi Bật :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("NoiBat", false)
+                            </div>
+                        </div>
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Hiển Thị :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("HienThi", false)
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary btn-sm">

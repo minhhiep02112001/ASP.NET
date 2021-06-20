@@ -38,30 +38,40 @@
     <script>
 
         $(document).ready(function () {
-            $(".image-color:first").prop('checked', true);
-            $(".image-color:first").parent().css("border", "2px solid red");
+            LoadDetailsProduct();
             $(".radio-image").click(function (even) {
                 even.preventDefault();
                 $(".radio-image").css("border", "1px solid");
                 $(this).css("border", "2px solid red");
                 $(this).find('.image-color').prop('checked', true);
-            });
-            $(".prod-add").click(function (even) {
-                even.preventDefault();
-                var checkbox = $(".image-color");
-                for (var i = 0; i < checkbox.length; i++) {
-                    if (checkbox[i].checked === true) {
-                        console.log(checkbox[i].value);
-                    }
-                }
-              
-            });
-
-            $(".prod-plus").click(function (event) {
-                event.preventDefault();
-                console.
+                LoadSize($(this).find('.image-color').val());
             });
         });
+
+        function LoadDetailsProduct() {
+            $(".image-color:first").prop('checked', true);
+            $(".image-color:first").parent().css("border", "2px solid red");
+            LoadSize($(".image-color:first").val());
+        }
+
+        function LoadSize(id_color) {
+            $.ajax({
+                url: "/LoadSize/" + id_color,
+                dataType: 'json',
+                type: "GET",
+                success: function (data) {
+                    $("#SizeProduct").children().remove("option");
+                    if (data["data"].length > 0) {
+                        for (var i = 0; i < data["data"].length; i++) {
+                            var option = document.createElement("option");
+                            option.value = data["data"][i]["ID"];
+                            option.innerHTML = data["data"][i]["TEN_SIZE"];
+                            $("#SizeProduct").append(option);
+                        }
+                    } 
+                }
+            });
+        }
 
     </script>
 }
@@ -99,46 +109,44 @@
 
 
             <!-- Product Description/Info -->
-            <div class="prod-cont">
-                <h1 class="main-ttl"><span>@Model.TEN_SP</span></h1>
+            <form action="@Url.RouteUrl("giohang" , new { action="InsertCart" , id = Model.MA_SP.Trim() })" method="post">
+                <div class="prod-cont">
+                    <h1 class="main-ttl"><span>@Model.TEN_SP</span></h1>
 
-                <div class="prod-skuwrap">
-                    <div style="margin-bottom:1rem">
-                        <span class="prod-skuttl">Giá Bán : </span> <b>@String.Format("{0:0,0}", Model.GIA_BAN)</b><sup>vnđ</sup>
-                    </div>
-                    <div style="margin-bottom:1rem">
-                        <span class="prod-skuttl">Đơn vị tính  : </span> @Model.DON_VI_TINH
-                    </div>
-                    <p class="prod-skuttl">Color : </p>
-                    <div class="image-color-product" style="margin-bottom:1rem;">
+                    <div class="prod-skuwrap">
+                        <div style="margin-bottom:1rem">
+                            <span class="prod-skuttl">Giá Bán : </span> <b>@String.Format("{0:0,0}", Model.GIA_BAN)</b><sup>vnđ</sup>
+                        </div>
+                        <div style="margin-bottom:1rem">
+                            <span class="prod-skuttl">Đơn vị tính  : </span> @Model.DON_VI_TINH
+                        </div>
+                        <p class="prod-skuttl">Color : </p>
+                        <div class="image-color-product" style="margin-bottom:1rem;">
+                            @Html.Action("LoadColor", "Home", new { id = Model.MA_SP })
+                        </div>
 
-                        @Html.Action("LoadColor", "Home", new { id = Model.MA_SP })
-                    </div>
 
-
-                    <p class="prod-skuttl">Size : </p>
-                    <div class="offer-props-select" style="margin-bottom:0px;">
-                        <div class="form-group">
-                            <select class="form-control" id="sel1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
+                        <p class="prod-skuttl">Size : </p>
+                        <div class="offer-props-select" style="margin-bottom:0px;">
+                            <div class="form-group">
+                                <select class="form-control" id="SizeProduct" name="idSize">
+                                   
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="prod-info">
+                    <div class="prod-info">
 
-                    <p class="prod-qnt">
-                        <input value="1" id="quatity" type="number" min="1" style="float: left; width: 60px; height: 39px; font-weight: 700; font-size: 14px; color: #373d54; text-align: center; display: block; margin: 0 2px 0 0; background: #f8fafc; border: 1px solid #e0e4f6">
+                        <p class="prod-qnt">
+                            <input value="1" id="quatity" name="quantity" type="number" min="1" style="float: left; width: 60px; height: 39px; font-weight: 700; font-size: 14px; color: #373d54; text-align: center; display: block; margin: 0 2px 0 0; background: #f8fafc; border: 1px solid #e0e4f6">
 
-                    </p>
-                    <p class="prod-addwrap">
-                        <a href="#" class="prod-add" rel="nofollow">Add to cart</a>
-                    </p>
-                </div>
-            </div>
+                        </p>
+                        <p class="prod-addwrap">
+                            <button type="submit" class="prod-add" rel="nofollow">Add to cart</button>
+                        </p>
+                    </div>
+            </form>
+        </div>
 
             <!-- Product Tabs -->
             <div class="prod-tabs-wrap">

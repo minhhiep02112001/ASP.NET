@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Models.EntityFramework.BAI_VIET>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TIEU_DE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MO_TA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SLUG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMAGES)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOI_DUNG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOI_BAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TRANG_THAI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NGAY_DANG)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TIEU_DE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MO_TA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SLUG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMAGES)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOI_DUNG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOI_BAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TRANG_THAI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NGAY_DANG)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MA_BV }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MA_BV }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MA_BV })
+        </td>
+    </tr>
+}
+
+</table>

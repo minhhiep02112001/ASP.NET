@@ -85,5 +85,10 @@ namespace Models.DAL
         {
             return this.context.KHACH_HANG.Find(id);
         }
+
+        public KHACH_HANG GetTaiKhoan(string tk)
+        {
+            return this.context.KHACH_HANG.Where(a => a.EMAIL == tk).FirstOrDefault();
+        }
     }
 }

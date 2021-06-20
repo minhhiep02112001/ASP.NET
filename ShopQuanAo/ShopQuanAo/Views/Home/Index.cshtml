@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{ 
+    var ListSlides = @ViewBag.ListSlide;
+    var ListArticle = @ViewBag.ListArticleHot;
+    var ProductHot = @ViewBag.ProductHot;
+}
+
 <section class="container">
 
 
@@ -11,8 +17,25 @@
     <div class="fr-slider-wrap">
         <div class="fr-slider">
             <ul class="slides">
-                @Html.Action("LoadSlides", "Home")
-            
+
+                @if (ListSlides != null)
+                {
+                    foreach (var item in ListSlides)
+                    {
+                        <li>
+                            <img src="@item.IMAGES" style="width:100%;" alt="@item.NGAY_DANG">
+                            <div class="fr-slider-cont">
+                                <h3>@item.TIEU_DE</h3>
+
+                                <p class="fr-slider-more-wrap">
+                                    <a class="fr-slider-more" href="@item.LINK">View collection</a>
+                                </p>
+                            </div>
+                        </li>
+                    }
+
+                }
+
             </ul>
         </div>
     </div>
@@ -24,53 +47,56 @@
     <!-- Banners -->
     <div class="banners-wrap">
         <div class="banners-list">
-            <div class="banner-i style_11">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/560x360);"></span>
-                <div class="banner-i-cont">
-                    <p class="banner-i-subttl">NEW COLLECTION</p>
-                    <h3 class="banner-i-ttl">MEN'S<br>CLOTHING</h3>
-                    <p class="banner-i-link"><a href="section.html">View More</a></p>
-                </div>
+            @Html.Action("LoadPostsHot", "Home")
+
+            @*
+        <div class="banner-i style_11">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
+            <div class="banner-i-cont">
+                <p class="banner-i-subttl">GREAT COLLECTION</p>
+                <h3 class="banner-i-ttl">CLOTHING<br>ACCESSORIES</h3>
+                <p class="banner-i-link"><a href="section.html">Show more</a></p>
             </div>
-            <div class="banner-i style_22">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
-                <div class="banner-i-cont">
-                    <p class="banner-i-subttl">GREAT COLLECTION</p>
-                    <h3 class="banner-i-ttl">CLOTHING<br>ACCESSORIES</h3>
-                    <p class="banner-i-link"><a href="section.html">Show more</a></p>
-                </div>
+        </div>
+        <div class="banner-i style_22">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
+            <div class="banner-i-cont">
+                <p class="banner-i-subttl">GREAT COLLECTION</p>
+                <h3 class="banner-i-ttl">CLOTHING<br>ACCESSORIES</h3>
+                <p class="banner-i-link"><a href="section.html">Show more</a></p>
             </div>
-            <div class="banner-i style_21">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
-                <div class="banner-i-cont">
-                    <h3 class="banner-i-ttl">SPORT<br>CLOTHES</h3>
-                    <p class="banner-i-link"><a href="section.html">Go to catalog</a></p>
-                </div>
+        </div>
+        <div class="banner-i style_21">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
+            <div class="banner-i-cont">
+                <h3 class="banner-i-ttl">SPORT<br>CLOTHES</h3>
+                <p class="banner-i-link"><a href="section.html">Go to catalog</a></p>
             </div>
-            <div class="banner-i style_21">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
-                <div class="banner-i-cont">
-                    <h3 class="banner-i-ttl">MEN AND <br>WOMEN SHOES</h3>
-                    <p class="banner-i-link"><a href="section.html">View More</a></p>
-                </div>
+        </div>
+        <div class="banner-i style_21">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
+            <div class="banner-i-cont">
+                <h3 class="banner-i-ttl">MEN AND <br>WOMEN SHOES</h3>
+                <p class="banner-i-link"><a href="section.html">View More</a></p>
             </div>
-            <div class="banner-i style_22">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
-                <div class="banner-i-cont">
-                    <p class="banner-i-subttl">DISCOUNT -20%</p>
-                    <h3 class="banner-i-ttl">HATS<br>COLLECTION</h3>
-                    <p class="banner-i-link"><a href="section.html">Shop now</a></p>
-                </div>
+        </div>
+        <div class="banner-i style_22">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/270x360);"></span>
+            <div class="banner-i-cont">
+                <p class="banner-i-subttl">DISCOUNT -20%</p>
+                <h3 class="banner-i-ttl">HATS<br>COLLECTION</h3>
+                <p class="banner-i-link"><a href="section.html">Shop now</a></p>
             </div>
-            <div class="banner-i style_12">
-                <span class="banner-i-bg" style="background: url(http://placehold.it/560x360);"></span>
-                <div class="banner-i-cont">
-                    <p class="banner-i-subttl">STYLISH CLOTHES</p>
-                    <h3 class="banner-i-ttl">WOMEN'S COLLECTION</h3>
-                    <p>A great selection of dresses, <br>blouses and women's suits</p>
-                    <p class="banner-i-link"><a href="section.html">View More</a></p>
-                </div>
+        </div>
+        <div class="banner-i style_12">
+            <span class="banner-i-bg" style="background: url(http://placehold.it/560x360);"></span>
+            <div class="banner-i-cont">
+                <p class="banner-i-subttl">STYLISH CLOTHES</p>
+                <h3 class="banner-i-ttl">WOMEN'S COLLECTION</h3>
+                <p>A great selection of dresses, <br>blouses and women's suits</p>
+                <p class="banner-i-link"><a href="section.html">View More</a></p>
             </div>
+        </div>*@
         </div>
     </div>
 
@@ -80,135 +106,70 @@
         <h3 class="component-ttl"><span>Sản phẩm mới nhất</span></h3>
         <div class="flexslider discounts-list">
             <ul class="slides">
-                @Html.Action("LoadProductNew" , "Home")
-               
+                @Html.Action("LoadProductNew", "Home")
+
             </ul>
         </div>
         <div class="discounts-info">
             <p>Special offer!<br>Limited time only</p>
-            <a href="catalog-list.html">Shop now</a>
+            <a href="">Shop now</a>
         </div>
     </div>
 
+    <div class="discounts-wrap">
+        <h3 class="component-ttl"><span>Sản phẩm nổi bật</span></h3>
+        <div class="flexslider discounts-list">
+            <ul class="slides">
+                @foreach (var item in ProductHot)
+                {
+                    <li class="discounts-i">
+                        <a href="product.html" class="discounts-i-img">
+                            <img src="@item.LINK_ANH_CHINH" alt="@item.TEN_SP">
+                        </a>
+                        <h3 class="discounts-i-ttl">
+                           @* Html.RouteLink(item.TEN_SP, new { action = "SanPham", id = item.SLUG })*@
+                             <a href="@Url.RouteUrl("RouteClient",new { action = "SanPham" , id = item.SLUG })">@item.TEN_SP</a>
+                            @* <a href="@Url.Action("SanPham" , "Home" , new { id = item.SLUG})">@item.TEN_SP</a>*@
+                        </h3>
+                        <p class="discounts-i-price">
+                            <b>$115</b> <del>$135</del>
+                        </p>
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <div class="discounts-info">
+            <p>Special offer!<br>Limited time only</p>
+            <a href="">Shop now</a>
+        </div>
+    </div>
 
     <!-- Latest news -->
     <div class="posts-wrap">
+        <h3 class="component-ttl"><span>Tin tức mới nhất</span></h3>
         <div class="posts-list">
-            @Html.Action("LoadPosts", "Home")   
+            @foreach (var item in ListArticle)
+            {
+                <div class="posts-i">
+                    <a class="posts-i-img" href="@Url.RouteUrl("RouteClient",new { action = "ChiTietBaiViet" , id = item.SLUG })">
+                        <span style="background: url(@item.IMAGES)"></span>
+                    </a>
+                    <time class="posts-i-date" datetime="2016-11-09 00:00:00"><span>30</span> Jan</time>
+                    <div class="posts-i-info">
+                        <a href="@Url.RouteUrl("RouteClient",new { action = "ChiTietBaiViet" , id = item.SLUG })" class="posts-i-ctg">@item.TIEU_DE</a>
+                        @*<h3 class="posts-i-ttl">
+                        <a href="post.html">Animi quaerat at</a>
+                    </h3>*@
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
 
 
-    <!-- Testimonials -->
-    <div class="reviews-wrap">
-        <div class="reviewscar-wrap">
-            <div class="swiper-container reviewscar">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Corrupti velit, vero esse, aperiam error magni illum quos, accusantium debitis et possimus recusandae tempora ad itaque dolorem veniam non voluptatem impedit iste? Dicta doloremque hic porro aspernatur. Dolores eligendi similique, cumque, eius veritatis</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Distinctio modi, quos, vero quibusdam ab deserunt doloribus eligendi velit temporibus ratione at est officia repellat? Adipisci nemo expedita rerum distinctio laudantium nihil voluptatem ullam vel ex magnam velit aliquid voluptate voluptatum excepturi</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Similique delectus totam ex cum magnam quasi, ipsam officiis amet temporibus enim modi rerum quo maxime reprehenderit, deserunt, libero quas distinctio quos! Ullam harum nesciunt omnis consectetur distinctio? Iste sunt, dolorem deserunt quibusdam</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Tempora ea ratione vel nisi, qui perferendis nulla, fugit aut, beatae, tempore modi. Minus sequi iste, nam nobis, excepturi nihil consequuntur reprehenderit ipsam, quam consequatur in. Esse, doloremque consectetur veniam quo ut voluptas necessitatibus</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Perferendis recusandae consequuntur quasi, non culpa. Minus porro officiis veniam facilis praesentium expedita doloribus, recusandae aut dolore autem, modi consequuntur rem perferendis dolores quisquam, sequi quas. Iusto et, eius laboriosam beatae</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Aliquid soluta nisi incidunt, dolores sequi itaque sunt et nesciunt delectus ipsam est molestias illo obcaecati, totam ducimus cumque consequuntur modi, laudantium! Temporibus vero odit quis, quibusdam maiores voluptatum sunt dolor tempora architecto fugiat quam.</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Ea reiciendis modi, molestiae dolores beatae facere quas	consequatur delectus ducimus, magni voluptates, eius, quia unde ut vitae doloribus illum! Optio saepe, modi aliquid perferendis veniam</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Ea reiciendis modi, molestiae dolores beatae facere quas	consequatur delectus ducimus, magni voluptates, eius, quia unde ut vitae doloribus illum! Optio saepe, modi aliquid perferendis veniam</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Quod soluta corrupti earum officia vel inventore vitae quidem, consequuntur odit impedit, eaque dolorem odio praesentium iusto amet voluptatum distinctio iste dicta maiores doloremque porro. Ipsa doloremque illum animi laborum quo in nemo delectus</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>Eveniet nobis minus possimus eius, doloribus ex similique debitis nihil at facere delectus unde, commodi, alias. Eius facilis, dolore officia veritatis, doloribus voluptatem aliquid rem corporis quam officiis at dignissimos dolorum, velit assumenda</p>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-container reviewscar-thumbs">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Aureole Jayde">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Aureole Jayde</a></h3>
-                        <p class="reviewscar-post">Director</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Benjy Darrin">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Benjy Darrin</a></h3>
-                        <p class="reviewscar-post">Designer</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Jeni Margie">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Jeni Margie</a></h3>
-                        <p class="reviewscar-post">Developer</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Edweena Chelsea">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Edweena Chelsea</a></h3>
-                        <p class="reviewscar-post">Manager</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Sean Rudolph">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Sean Rudolph</a></h3>
-                        <p class="reviewscar-post">Designer</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Brigham Murphy">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Brigham Murphy</a></h3>
-                        <p class="reviewscar-post">Director</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Barrie Roderick">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Barrie Roderick</a></h3>
-                        <p class="reviewscar-post">Developer</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="John Doe">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">John Doe</a></h3>
-                        <p class="reviewscar-post">Manager</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Shirlee Annabel">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Shirlee Annabel</a></h3>
-                        <p class="reviewscar-post">Developer</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Lettice Alyce">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Lettice Alyce</a></h3>
-                        <p class="reviewscar-post">Director</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Meriel Glory">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Meriel Glory</a></h3>
-                        <p class="reviewscar-post">Manager</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="http://placehold.it/120x120" alt="Janene Alaina">
-                        <h3 class="reviewscar-ttl"><a href="reviews.html">Janene Alaina</a></h3>
-                        <p class="reviewscar-post">Manager</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
     <!-- Subscribe Form -->
     <div class="newsletter">
         <h3>Subscribe to us</h3>
@@ -220,7 +181,7 @@
     </div>
 
     <!-- Quick View Product - start -->
-    <div class="qview-modal">
+    <!--<div class="qview-modal">
         <div class="prod-wrap">
             <a href="product.html">
                 <h1 class="main-ttl">
@@ -385,7 +346,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Quick View Product - end -->
 </section>
 

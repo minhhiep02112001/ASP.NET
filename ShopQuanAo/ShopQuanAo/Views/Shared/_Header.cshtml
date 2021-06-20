@@ -1,6 +1,9 @@
 ﻿
 @{
     Layout = null;
+
+    var sessionCustorm = Session["Customer_Session"] as ShopQuanAo.Session.CustomerSession;
+    var sessionCart = Session["CartSession"] as List<ShopQuanAo.Object.CartItem>;
 }
 <header class="header">
 
@@ -16,7 +19,7 @@
             <div class="shop-menu">
                 <ul>
 
-                    <li>
+                @*    <li>
                         <a href="wishlist.html">
                             <i class="fa fa-heart"></i>
                             <span class="shop-menu-ttl">Wishlist</span>
@@ -31,22 +34,47 @@
                         </a>
                     </li>
 
-                    <li class="topauth">
-                        <a href="auth.html">
-                            <i class="fa fa-lock"></i>
-                            <span class="shop-menu-ttl">Registration</span>
-                        </a>
-                        <a href="auth.html">
-                            <span class="shop-menu-ttl">Login</span>
-                        </a>
-                    </li>
-
+                    @if (sessionCustorm != null)
+                    {
+                        <li class="topauth">
+                            <a href="auth.html">
+                                <i class="fa fa-lock"></i>
+                                <span class="shop-menu-ttl">@sessionCustorm.CustomerName</span>
+                            </a>
+                            <a href="auth.html">
+                                <span class="shop-menu-ttl">Logout</span>
+                            </a>
+                        </li>
+             
+                    }
+                    else
+                    {
+                        <li class="topauth">
+                            <a href="@Url.RouteUrl("RouteClient" , new { action  = "Register"})">
+                                <i class="fa fa-lock"></i>
+                                <span class="shop-menu-ttl">Registration</span>
+                            </a>
+                            <a href="@Url.RouteUrl("RouteClient" , new { action  = "Login"})">
+                                <span class="shop-menu-ttl">Login</span>
+                            </a>
+                        </li>
+                    }
+*@
                     <li>
                         <div class="h-cart">
                             <a href="cart.html">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="shop-menu-ttl">Cart</span>
-                                (<b>0</b>)
+                                (
+                                    @if(sessionCart != null)
+                                    {
+                                        <b> @sessionCart.Sum(a=>a.quantity) </b>
+                                    }
+                                    else
+                                    {
+                                        <b>0</b>
+                                    }
+                                 )
                             </a>
                         </div>
                     </li>
@@ -63,7 +91,7 @@
 
                 <!-- Catalog menu - start -->
                 <div class="topcatalog">
-                    <a class="topcatalog-btn" href="catalog-list.html"><span>All</span> catalog</a>
+                    <a class="topcatalog-btn" href="#"><span>All</span> Sản Phẩm </a>
                     @Html.Action("LoadParentMenu","Home")
                 </div>
                 <!-- Catalog menu - end -->
@@ -72,122 +100,49 @@
 
                 <ul class="mainmenu">
                     <li>
-                        <a href="index.html" class="active">
-                            Home
+                        <a href="@Url.RouteUrl("RouteClient" , new { action = "Index"})" class="active">
+                            Trang Chủ
                         </a>
                     </li>
-                    <li class="menu-item-has-children">
-                        <a href="catalog-list.html">
-                            Catalog <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="catalog-list.html">
-                                    Catalog List - Style 1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="catalog-list-2.html">
-                                    Catalog List - Style 2
-                                </a>
-                            </li>
-                            <li>
-                                <a href="catalog-gallery.html">
-                                    Catalog Gallery - Style 1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="catalog-gallery-2.html">
-                                    Catalog Gallery - Style 2
-                                </a>
-                            </li>
-                            <li>
-                                <a href="catalog-table.html">
-                                    Catalog Table
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="product.html">
-                            Product <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="product.html">
-                                    Product - Style 1 (Slider)
-                                </a>
-                            </li>
-                            <li>
-                                <a href="product-2.html">
-                                    Product - Style 2 (Scroll)
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li>
-                        <a href="elements.html">
-                            Elements
-                        </a>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="blog.html">
-                            Blog <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="blog.html">
-                                    Blog - Style 1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="blog-2.html">
-                                    Blog - Style 2
-                                </a>
-                            </li>
-                            <li>
-                                <a href="post.html">
-                                    Single Post
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
                         <a href="#">
-                            Pages <i class="fa fa-angle-down"></i>
+                            Tin Tức 
                         </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="contacts.html">
-                                    Contacts
-                                </a>
-                            </li>
-                            <li>
-                                <a href="cart.html">
-                                    Cart
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth.html">
-                                    Authorization
-                                </a>
-                            </li>
-                            <li>
-                                <a href="compare.html">
-                                    Compare
-                                </a>
-                            </li>
-                            <li>
-                                <a href="wishlist.html">
-                                    Wishlist
-                                </a>
-                            </li>
-                            <li>
-                                <a href="404.html">
-                                    Error 404
-                                </a>
-                            </li>
-                        </ul>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            Liên Hệ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Giỏ Hàng 
+                        </a>
+
+                    </li>
+                    <li>
+                        @if(sessionCustorm==null){
+                            <a href="@Url.RouteUrl("RouteClient" , new { action = "Register"})">Đăng Ký</a>
+                        }
+                        else
+                        {
+                            @sessionCustorm.CustomerName
+                        }
+
+                    </li>
+                    <li>
+                        @if (sessionCustorm == null)
+                        {
+                            <a href="@Url.RouteUrl("RouteClient" , new { action = "Login"})">Đăng Nhập</a>
+                        }
+                        else
+                        { 
+                            <a href="#">
+                                Đăng Xuất
+                            </a>
+                        }
                     </li>
                     <li class="mainmenu-more">
                         <span>...</span>

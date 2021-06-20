@@ -37,7 +37,7 @@
                                 <strong>Error : !</strong> @ViewBag.Err
                             </div>
                         }
-                        @Html.HiddenFor(model =>model.MA_BV)
+                        @Html.HiddenFor(model => model.MA_BV)
                         <div class="row form-group mb-3">
                             <div class="col col-md-3">
                                 <label for="text-input" class=" form-control-label">Tiêu Đề :</label>
@@ -104,8 +104,22 @@
 
                             </div>
                         </div>
-
-
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Nổi Bật :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("NoiBat", Model.NOI_BAT.Value)
+                            </div>
+                        </div>
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Hiển Thị :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("HienThi", Model.TRANG_THAI.Value)
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary btn-sm">

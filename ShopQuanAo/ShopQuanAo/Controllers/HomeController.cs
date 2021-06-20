@@ -2,6 +2,8 @@
 using Models.EntityFramework;
 using PagedList;
 using ShopQuanAo.Areas.admin.Data;
+using ShopQuanAo.Objects;
+using ShopQuanAo.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,13 +98,6 @@ namespace ShopQuanAo.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult LoadSlides()
-        {
-            var arrSlides = this.context.SLIDEs.Where(a => a.TRANG_THAI == true);
-            return PartialView("_LoadSlides", arrSlides);
-        }
-
-        [ChildActionOnly]
         public ActionResult LoadProductNew()
         {
             // Show 15 sản phẩm mới nhất
@@ -110,18 +105,25 @@ namespace ShopQuanAo.Controllers
             return PartialView("_LoadProductNew", arrProduct);
         }
 
+       
+
         [ChildActionOnly]
-        public ActionResult LoadPosts()
+        public ActionResult LoadPostsHot()
         {
-            // Show 15 sản phẩm mới nhất
-            var arrBaiViet = this.context.BAI_VIET.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderBy(c => c.NGAY_DANG).Skip(0).Take(3);
-            return PartialView("_LoadPosts", arrBaiViet);
+            // Show 6 Bài Viết Nổi bật mới nhất trong trang Index
+            var arrBaiViet = this.context.BAI_VIET.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderByDescending(c => c.NGAY_DANG).Skip(0).Take(6);
+            return PartialView("_LoadPostsHot", arrBaiViet);
         }
 
-       
+
         [HttpGet]
         public ActionResult Index()
         {
+            var arrBaiViet = this.context.BAI_VIET.Where(a => a.TRANG_THAI == true ).OrderByDescending(c => c.NGAY_DANG).Skip(0).Take(3);
+            var arrSlides = this.context.SLIDEs.Where(a => a.TRANG_THAI == true).OrderByDescending(c=>c.NGAY_DANG);
+            ViewBag.ProductHot = this.context.SAN_PHAM.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderByDescending(c => c.NGAY_TAO);
+            ViewBag.ListArticleHot = arrBaiViet;
+            ViewBag.ListSlide = arrSlides;
             return View();
         }
 
@@ -250,13 +252,27 @@ namespace ShopQuanAo.Controllers
             }
             return View(product);
         }
-        
+        //ajax load size sản phẩm chi tiết
+        // POST: admin/Size/Edit/5
+        [HttpGet]
+        public ActionResult LoadSize(int id)
+        {
+            var color = this.context.COLORs.Find(id);
+            var arrSize = this.context.SIZEs.SqlQuery("Select * from size where id in (select ID_SIZE from SAN_PHAM_CHI_TIET where Ma_SP ='"+color.MA_SP+"' and ID_COLOR = "+color.ID+")").ToList();
+
+            return Json(new
+            {
+                data = arrSize
+            }, JsonRequestBehavior.AllowGet) ;
+        }
+
         [HttpGet]
         public ActionResult BaiViet(int page = 1)
         {
             var arrBaiViet =this.context.BAI_VIET.Where(a=>a.TRANG_THAI== true).OrderBy(c=>c.NGAY_DANG).ToPagedList(page , 12);
             return View(arrBaiViet);
         }
+
         [HttpGet]
         public ActionResult ChiTietBaiViet(string id)
         {
@@ -281,5 +297,81 @@ namespace ShopQuanAo.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(CustomerLogin customer)
+        {
+            var dal_KH = new DAL_Customer();
+
+            if (ModelState.IsValid)
+            {
+                customer.MatKhau = MaHoaMD5.GetHash(customer.MatKhau);
+                var kHACH_HANG = this.context.KHACH_HANG.Where(c=>c.EMAIL == customer.TaiKhoan).FirstOrDefault();
+                if (kHACH_HANG != null)
+                {
+                    if (kHACH_HANG.MK == customer.MatKhau)
+                    {
+                        var customerSession = new CustomerSession();
+                        customerSession.CustomerName = kHACH_HANG.TEN_KH;
+                        customerSession.CustomerID = kHACH_HANG.ID;
+                        Session.Add("Customer_Session", customerSession);
+                        return RedirectToRoute("RouteClient", new { action = "Index" });
+                    }
+                    else
+                    {
+
+                        ViewBag.AddModelError = "Mật khẩu không đúng";
+                        return View("Login");
+                    }
+                }
+                else
+                {
+                    ViewBag.AddModelError = "Tài khoản không tồn tại";
+                    return View("Login");
+                }
+            }
+            return View();
+        }
+        
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(KHACH_HANG customer)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var EmailExists = this.context.KHACH_HANG.Where(c => c.EMAIL == customer.EMAIL).SingleOrDefault();
+                if (EmailExists != null)
+                {
+                    ViewBag.ErrorRegister = "Email đã tồn tại";
+                    return View();
+                }
+
+                else
+                {
+                    customer.TRANG_THAI = true;
+                    customer.MK = MaHoaMD5.GetHash(customer.MK);
+                    this.context.KHACH_HANG.Add(customer);
+                    this.context.SaveChanges();
+                    ViewBag.Success = "Tạo thành công";
+                    return RedirectToRoute("RouteClient", new { action = "Login" });
+                }
+            }
+            return View();
+        }
+
     }
 }

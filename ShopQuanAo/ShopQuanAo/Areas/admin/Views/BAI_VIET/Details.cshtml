@@ -1,0 +1,83 @@
+﻿@model Models.EntityFramework.BAI_VIET
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BAI_VIET</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TIEU_DE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIEU_DE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MO_TA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MO_TA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SLUG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SLUG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMAGES)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMAGES)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOI_DUNG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOI_DUNG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOI_BAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOI_BAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANG_THAI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANG_THAI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NGAY_DANG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NGAY_DANG)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MA_BV }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

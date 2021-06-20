@@ -44,8 +44,7 @@ namespace Models.DAL
             try
             {
                 baiviet.NGAY_DANG = DateTime.Now;
-                baiviet.NOI_BAT = false;
-                baiviet.TRANG_THAI = false;
+                
                 this.context.BAI_VIET.Add(baiviet);
                 this.context.SaveChanges();
                 return true;
@@ -67,6 +66,8 @@ namespace Models.DAL
                     tintuc.NOI_DUNG = baiviet.NOI_DUNG;
                     tintuc.SLUG = baiviet.SLUG;
                     tintuc.TIEU_DE = baiviet.TIEU_DE;
+                    tintuc.NOI_BAT = baiviet.NOI_BAT;
+                    tintuc.TRANG_THAI = baiviet.TRANG_THAI;
                     this.context.SaveChanges();
                 }
                 return true;

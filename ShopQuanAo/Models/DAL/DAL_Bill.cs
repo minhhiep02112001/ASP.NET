@@ -66,11 +66,14 @@ namespace Models.DAL
                 var details = new ModelDetailsBill();
                 var spct = new DAL_SanPhamChiTiet().returnSPCT(item.ID_SP_CT);
                 details.SL_MUA = (item.SL_MUA ?? 0);
-                details.Images = this.context.SAN_PHAM.Find(spct.MA_SP).LINK_ANH_CHINH;
-                details.tenColor =this.context.COLORs.Find(spct.ID_COLOR).TEN_MAU;
-                details.tenSize = this.context.SIZEs.Find(spct.ID_SIZE).TEN_SIZE;
+                var sanpham = this.context.SAN_PHAM.Find(spct.MA_SP);
+                var color = this.context.COLORs.Find(spct.ID_COLOR);
+                var size = this.context.SIZEs.Find(spct.ID_SIZE);
+                details.Images = (sanpham != null) ?sanpham.LINK_ANH_CHINH : "";
+                details.tenColor = (color != null) ? color.TEN_MAU : "";
+                details.tenSize = (size != null) ? size.TEN_SIZE : "";
                 details.SP_SIZE_MAU =item.SP_SIZE_MAU;
-                details.tenSP = this.context.SAN_PHAM.Find(spct.MA_SP).TEN_SP;
+                details.tenSP = (sanpham != null) ? sanpham.TEN_SP : "";
                 details.ID = item.ID;
                 details.GIA_BAN = (item.GIA_BAN ?? 0);
                 details.DON_VI_TINH = item.DON_VI_TINH;

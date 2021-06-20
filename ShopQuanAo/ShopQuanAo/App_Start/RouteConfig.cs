@@ -14,12 +14,18 @@ namespace ShopQuanAo
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "giohang",
+                url: "GioHang/{action}/{id}/{quantity}",
+                defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional , quantity = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "RouteClient",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-
+   
            /* routes.MapRoute(
               name: "Default",
               url: "{controller}/{action}/{id}",

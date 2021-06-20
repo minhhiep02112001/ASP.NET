@@ -126,12 +126,10 @@
             {
                 <div class="prod-i">
                     <div class="prod-i-top">
-                        <a href="@Url.Action("SanPham" , new { id = item.SLUG})" class="prod-i-img"><!-- NO SPACE --><img src="@item.LINK_ANH_CHINH" alt="Adipisci aperiam commodi"><!-- NO SPACE --></a>
-
-                        <a href="#" class="prod-i-buy">Add to cart</a>
+                        <a href="@Url.Action("SanPham" , new { id = item.SLUG})" class="prod-i-img"><!-- NO SPACE --><img src="@item.LINK_ANH_CHINH" alt="Adipisci aperiam commodi"><!-- NO SPACE --></a> 
                     </div>
                     <h3>
-                        <a href="product.html">@item.TEN_SP</a>
+                        <a href="@Url.Action("SanPham" , new { id = item.SLUG})">@item.TEN_SP</a>
                     </h3>
                     <p class="prod-i-price">
                         <b>@String.Format("{0:0,0}", item.GIA_BAN)<sup>đ</sup></b>

@@ -23,13 +23,13 @@ namespace Models.DAL
         {
             try
             {
-                object[] param = new[]
-                {
-                    new SqlParameter("@ten",ten),
-                    new SqlParameter("@slug",slug),
-                    new SqlParameter("@mota",mota)
-                };
-                this.context.SIZEs.SqlQuery("Insert into SIZE(TEN_SIZE , SLUG , MO_TA) Values( @ten , @slug , @mota )" , param ).SingleOrDefault();
+                var size = new SIZE();
+                size.TEN_SIZE = ten;
+                size.SLUG = slug;
+                size.MO_TA = mota;
+                size.TRANG_THAI = true;
+                size.IS_REMOVE = false;
+                this.context.SIZEs.Add(size);
                 this.context.SaveChanges();
                 return true;
             }
@@ -106,7 +106,7 @@ namespace Models.DAL
             {
                 
                     var size = this.context.SIZEs.Find(id);
-                    this.context.SIZEs.Remove(size);
+                    size.IS_REMOVE = true;
                     this.context.SaveChanges();
                     return true;
                

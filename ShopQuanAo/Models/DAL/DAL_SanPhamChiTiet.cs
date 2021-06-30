@@ -20,6 +20,8 @@ namespace Models.DAL
         {
             try
             {
+                spct.TRANG_THAI = false;
+                spct.IS_REMOVE = false;
                 this.context.SAN_PHAM_CHI_TIET.Add(spct);
                 this.context.SaveChanges();
                 return true;
@@ -32,7 +34,7 @@ namespace Models.DAL
 
         public List<SAN_PHAM_CHI_TIET> getListSanPhamDetails(string masp)
         {
-            return this.context.SAN_PHAM_CHI_TIET.Where(a => a.MA_SP == masp).ToList();
+            return this.context.SAN_PHAM_CHI_TIET.Where(a => a.MA_SP == masp ).ToList();
 
         }
         public List<SAN_PHAM_CHI_TIET> getMaspAndIdColor(string masp , int idColor)
@@ -45,7 +47,7 @@ namespace Models.DAL
         {
             try
             {
-                var spct = this.context.SAN_PHAM_CHI_TIET.Find(id);
+                var spct = this.context.SAN_PHAM_CHI_TIET.SingleOrDefault(c=>c.ID == id && c.ID_SIZE == sp.ID_SIZE);
                 if (spct != null)
                 {
                     spct.ID_COLOR = sp.ID_COLOR;
@@ -53,6 +55,14 @@ namespace Models.DAL
                     spct.ID_SIZE = sp.ID_SIZE;
                     spct.SLUG = sp.SLUG;
                     spct.SO_LUONG = sp.SO_LUONG;
+                    this.context.SaveChanges();
+                }
+                else
+                {
+                    sp.NGAY_TAO = DateTime.Now;
+                    sp.TRANG_THAI = true;
+                    sp.IS_REMOVE = false;
+                    this.context.SAN_PHAM_CHI_TIET.Add(sp);
                     this.context.SaveChanges();
                 }
                 

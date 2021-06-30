@@ -27,5 +27,7 @@ namespace Models.EntityFramework
         public bool? TRANG_THAI { get; set; }
 
         public DateTime? NGAY_TAO { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

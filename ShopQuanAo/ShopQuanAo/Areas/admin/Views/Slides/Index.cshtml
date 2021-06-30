@@ -11,18 +11,34 @@
 
 @section jsFooter{
     <script>
-        $(document).ready(function () {
-            $(".btn-view-details").off("click").on("click", function (e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-
-                $("#Modal-"+id).modal();
-            });
-
-            $(document).on("click", ".btn-view-edit-sp", function (e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-                location.href = "/admin/sanpham/edit/"+id;
+        $(".btn-delete-slide").off("click").on("click", function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var id = btn.data("id");
+            console.log(id);
+            Swal.fire({
+                title: 'Delete',
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/Slides/Delete/' + id,
+                        dataType: 'json',
+                        type: "get"
+                    }).done(function (data) {
+                        // If successful
+                        if (data.status == "success") {
+                            Swal.fire("", "", data.status);
+                            var row = $(".table-lsp").children("tbody").find("tr#row_" + id);
+                            row.remove();
+                        } else {
+                            Swal.fire("", "", data.status);
+                        }
+                    })
+                }
             });
         });
     </script>
@@ -110,13 +126,13 @@
                                 <tr id="row_@item.ID">
                                     <td> @Html.DisplayFor(modelItem => item.ID)</td>
                                     <td> @Html.DisplayFor(modelItem => item.TIEU_DE)</td>
-                                    <td> @Html.DisplayFor(modelItem => item.IMAGES)</td>
+                                    <td> <img src="@item.IMAGES" style="max-width:200px; max-height:100px;" alt="Alternate Text" /></td>
                                     <td> @Html.DisplayFor(modelItem => item.LINK)</td>
                                     <td> @Html.DisplayFor(modelItem => item.STT)</td>
                                     <td> @Html.DisplayFor(modelItem => item.NGAY_DANG)</td>
                                     <td class="process">
 
-                                        <span data-id="@item.ID" class="badge badge-pill btn-active-lsp @((item.TRANG_THAI == true)?"badge bg-success":"badge bg-danger")">
+                                        <span data-id="@item.ID" class="badge badge-pill  @((item.TRANG_THAI == true)?"badge bg-success":"badge bg-danger")">
                                             <i class="fa  @((item.TRANG_THAI == true)?"fa-eye":"fa-eye-slash")">@((item.TRANG_THAI == true)? "  Active" : "  Die")</i>
                                         </span>
 
@@ -129,7 +145,7 @@
                                                 <i class="zmdi zmdi-edit"></i>
                                             </a>
 
-                                            <a class="btn item btn-delete-lsp" data-toggle="tooltip" data-id="@item.ID" data-placement="top" title="" data-original-title="Delete">
+                                            <a class="btn item btn-delete-slide" data-toggle="tooltip" data-id="@item.ID" data-placement="top" title="" data-original-title="Delete">
                                                 <i class="zmdi zmdi-delete"></i>
                                             </a>
 

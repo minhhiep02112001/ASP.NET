@@ -14,9 +14,10 @@ using System.Web.Mvc;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class SanPhamController : Controller
+    public class SanPhamController : BaseController
     {
         // GET: admin/SanPham
+        protected ShopQuanAoDBContext db = new ShopQuanAoDBContext();
         protected DAL_LoaiSanPham DalLSP { get; set; }
         protected DAL_Color DalColor { get; set; }
         protected DAL_SanPham DalSP { get; set; }
@@ -88,7 +89,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
 
         public void SetSelectOptionLSP(int? selected = null)
         {
-            var ListSelectOption = new DeQuySelectOption().ListSelectOption();
+            var ListSelectOption = new DeQuySelectOption().ListSelectOption().Where(c=>c.IS_REMOVE ==false).ToList();
             ViewBag.MovieType = new SelectList(ListSelectOption, "ID_LOAI_SP", "TEN_LOAI_SP", selected);
         }
 
@@ -114,6 +115,8 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 sanPham.GIA_BAN = decimal.Parse(collection["gia-ban"]);
                 sanPham.GIA_NHAP = decimal.Parse(collection["gia-nhap"]);
                 sanPham.LINK_ANH_CHINH = this.SaveUploadImage(Request.Files["anh-chinh"]);
+                sanPham.NOI_BAT = Boolean.Parse(collection["noi-bat"]);
+                sanPham.TRANG_THAI = Boolean.Parse(collection["hien-thi"]); ;
                 var str_list_anh = "";
                 foreach (var file in Request.Files.GetMultiple("list-anh"))
                 {
@@ -123,8 +126,6 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 sanPham.NGAY_TAO = DateTime.Now;
                 sanPham.LUOT_XEM = 0;
                 sanPham.SO_LUONG_TONG = 0;
-                sanPham.TRANG_THAI = false;
-                sanPham.NOI_BAT = false;
 
                 if (this.DalSP.insertSanPham(sanPham))
                 {
@@ -265,7 +266,8 @@ namespace ShopQuanAo.Areas.admin.Controllers
             this.SetSelectOptionLSP(sAN_PHAM.ID_LSP);
             sAN_PHAM.LIST_ANH_KEM = "";
             sAN_PHAM.LINK_ANH_CHINH = "";
-
+            sAN_PHAM.NOI_BAT = Request.Form["NoiBat"].Contains("true") ? true : false;
+            sAN_PHAM.TRANG_THAI = Request.Form["HienThi"].Contains("true") ? true : false;
             if (ModelState.IsValid)
             {
                 var Sql = "Select * from SAN_PHAM where MA_SP!='"+sAN_PHAM.MA_SP+"' AND SLUG = '"+sAN_PHAM.SLUG+"'";
@@ -321,20 +323,20 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 color.IMAGES = (Request.Files["anh-mau-edit"].ContentLength > 0)?SaveUploadImage(Request.Files[0]):"";
                 var arrSize = collection["size-edit"].Split(',');
                 var arrSoLuong = collection["quantity-edit"].Split(',');
-                var arrIdSpct = collection["id_spct"].Split(',');
+                var arrIdSpct = collection["id_spct"];
                 
                 if (this.DalColor.updateColor(id , color))
                 {
                     for(var i = 0; i < arrSize.Length; i++)
                     {
                         var spct = new SAN_PHAM_CHI_TIET();
-                        spct.ID = int.Parse(arrIdSpct[i]);
+                        spct.ID = int.Parse(arrIdSpct);
                         spct.MA_SP = masp;
                         spct.ID_SIZE = int.Parse(arrSize[i]);
                         spct.SO_LUONG = int.Parse(arrSoLuong[i]);
                         spct.ID_COLOR = id;
-                        spct.SLUG = this.DalSP.ReturnSAN_PHAM(masp).SLUG + '-' + this.DalColor.returnColor(id).SLUG + '-' + this.DalSize.returnSize(int.Parse(arrSize[i])).SLUG;
-                        var result = this.DalSPCT.updateSPCT(int.Parse(arrIdSpct[i]), spct);
+                        spct.SLUG = this.DalSP.ReturnSAN_PHAM(masp).SLUG;
+                        var result = this.DalSPCT.updateSPCT(int.Parse(arrIdSpct), spct);
                     }
                     TempData["status-edit"] = "Sửa thành công !!!";
                 }
@@ -374,17 +376,24 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 color.SLUG = collection["slug-create"];
                 color.MA_SP = id;
                 var idColor = this.DalColor.insertColor(color);
-                for (var i = 0; i < arrSize.Length; i++)
+                try
                 {
-                    var spct = new SAN_PHAM_CHI_TIET();
-                    spct.ID_COLOR = idColor;
-                    spct.MA_SP = id;
-                    spct.ID_SIZE = int.Parse(arrSize[i]);
-                    spct.SO_LUONG = int.Parse(arrSL[i]);
-                    spct.SLUG = this.DalSP.ReturnSAN_PHAM(id).SLUG + '-' + this.DalColor.returnColor(idColor).SLUG + '-' + this.DalSize.returnSize(int.Parse(arrSize[i])).SLUG;
-                    spct.TRANG_THAI = true;
-                    spct.NGAY_TAO = DateTime.Now;
-                    this.DalSPCT.insertSanPhamChiTiet(spct);
+                    for (var i = 0; i < arrSize.Length; i++)
+                    {
+                        var spct = new SAN_PHAM_CHI_TIET();
+                        spct.ID_COLOR = idColor;
+                        spct.MA_SP = id;
+                        spct.ID_SIZE = int.Parse(arrSize[i]);
+                        spct.SO_LUONG = int.Parse(arrSL[i]);
+                        spct.SLUG = this.DalSP.ReturnSAN_PHAM(id).SLUG;
+                        spct.TRANG_THAI = true;
+                        spct.NGAY_TAO = DateTime.Now;
+                        this.DalSPCT.insertSanPhamChiTiet(spct);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    db.COLORs.Remove(db.COLORs.Find(idColor));
                 }
 
                 TempData["status-create"] = "success";
@@ -394,26 +403,15 @@ namespace ShopQuanAo.Areas.admin.Controllers
         }
 
         // GET: admin/SanPham/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
+            var result = new DAL_SanPham().deleteSP(id);
 
-            return View();
+            return Json(new
+            {
+                status = (result) ? "success" : "error",
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: admin/SanPham/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -13,7 +13,7 @@
                 <div class="prod-rel-cont">
                     <h3><a href="@Url.Action("SanPham" , new { id = item.SLUG})">@item.TEN_SP</a></h3>
                     <p class="prod-rel-price">
-                        <span>@String.Format("{0:0,0}", item.GIA_BAN)<sup>đ</sup></span>
+                        <span>@String.Format("{0:0,0}", item.GIA_BAN-(item.GIA_BAN*item.GIAM_GIA)/100)<sup>VNĐ</sup></span>
                     </p>
                     <div class="prod-rel-actions">
                        @* <a title="Wishlist" href="#" class="prod-rel-favorites"><i class="fa fa-heart"></i></a>

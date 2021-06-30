@@ -93,6 +93,15 @@
                             </div>
                         </div>
 
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="email-input" class=" form-control-label">Hiển thị :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="checkbox" name="is_active" value="true" @(Model.TRANG_THAI.Value ? "checked":"") />
+                            </div>
+                        </div>
+
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary btn-sm">

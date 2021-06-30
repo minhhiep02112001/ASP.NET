@@ -12,8 +12,6 @@ namespace ShopQuanAo.Areas.admin.Controllers
         // GET: admin/TrangChu
         public ActionResult Index()
         {
-            var db = new DAL_LoaiSanPham();
-            var arr = db.getDanhSach();
             return View();
         }
 

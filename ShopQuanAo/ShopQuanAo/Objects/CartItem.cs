@@ -7,7 +7,7 @@ namespace ShopQuanAo.Object
 {
     public class CartItem
     {
-        public long DetailsProductID { set; get; }
+        public int DetailsProductID { set; get; }
 
         public string productID { set; get; }
 

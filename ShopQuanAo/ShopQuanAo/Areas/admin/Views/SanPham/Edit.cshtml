@@ -71,14 +71,14 @@
                                 </div>
 
 
-                               
+
 
                                 <div class="row form-group mb-3">
                                     <div class="col col-md-3">
                                         <label for="text-input" class=" form-control-label">Giá Nhập : </label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        @Html.EditorFor(model => model.GIA_NHAP, new { htmlAttributes = new { @type = "number" ,@min="0" ,@id ="gia-nhap" , @class = "form-control" } })
+                                        @Html.EditorFor(model => model.GIA_NHAP, new { htmlAttributes = new { @type = "number", @min = "0", @id = "gia-nhap", @class = "form-control" } })
                                         <small class="validate-gia-nhap text-danger">
                                             @Html.ValidationMessageFor(model => model.GIA_NHAP, "", new { @class = "text-danger" })
                                         </small>
@@ -90,7 +90,7 @@
                                         <label for="text-input" class=" form-control-label">Giá Bán : </label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        @Html.EditorFor(model => model.GIA_BAN, new { htmlAttributes = new { @type = "number" , @min = "0", @id ="gia-ban" ,  @class = "form-control" } })
+                                        @Html.EditorFor(model => model.GIA_BAN, new { htmlAttributes = new { @type = "number", @min = "0", @id = "gia-ban", @class = "form-control" } })
                                         <small class="validate-gia-ban text-danger">
                                             @Html.ValidationMessageFor(model => model.GIA_BAN, "", new { @class = "text-danger" })
                                         </small>
@@ -101,7 +101,7 @@
                                         <label for="text-input" class=" form-control-label">Giảm Giá : </label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        @Html.EditorFor(model => model.GIAM_GIA, new { htmlAttributes = new {@type="number", @min = "0" , @max="100", @id ="giam-gia" , @class = "form-control" } })
+                                        @Html.EditorFor(model => model.GIAM_GIA, new { htmlAttributes = new { @type = "number", @min = "0", @max = "100", @id = "giam-gia", @class = "form-control" } })
                                         <small class="validate-giam-gia text-danger">
                                             @Html.ValidationMessageFor(model => model.GIAM_GIA, "", new { @class = "text-danger" })
                                         </small>
@@ -112,7 +112,7 @@
                                         <label for="text-input" class=" form-control-label">Đơn Vị Tính : </label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        @Html.EditorFor(model => model.DON_VI_TINH, new { htmlAttributes = new {@id="don-vi-tinh", @class = "form-control" } })
+                                        @Html.EditorFor(model => model.DON_VI_TINH, new { htmlAttributes = new { @id = "don-vi-tinh", @class = "form-control" } })
                                         <small class="validate-don-vi-tinh text-danger">
                                             @Html.ValidationMessageFor(model => model.DON_VI_TINH, "", new { @class = "text-danger" })
                                         </small>
@@ -127,7 +127,7 @@
                                         @Html.TextAreaFor(model => model.MO_TA, new { @id = "mo-ta", @rows = "5", @class = "mo-ta form-control" })
                                         <small class="validate-mo-ta">
                                             @Html.ValidationMessageFor(model => model.MO_TA, "", new { @class = "text-danger" })
-                                        </small>    
+                                        </small>
                                     </div>
                                 </div>
 
@@ -200,6 +200,22 @@
 
                                 </div>
 
+                                <div class="row form-group mb-3">
+                                    <div class="col col-md-3">
+                                        <label for="select" class=" form-control-label">Nổi Bật :</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.CheckBox("NoiBat", Model.NOI_BAT.Value)
+                                    </div>
+                                </div>
+                                <div class="row form-group mb-3">
+                                    <div class="col col-md-3">
+                                        <label for="select" class=" form-control-label">Hiển Thị :</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.CheckBox("HienThi", Model.TRANG_THAI.Value)
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 @if (ViewBag.Status != null)
@@ -410,23 +426,7 @@
                                                     </thead>
                                                     <tbody class="table-details-product-create">
 
-                                                        <tr>
-                                                            <td>
-                                                                <select class="form-select form-select-sm size-create" name="size-create" aria-label=".form-select-sm example">
-                                                                    <option value="5">Size S</option>
-                                                                    <option value="6" selected="">Size  XL</option>
-                                                                    <option value="7">Size L</option>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" name="quantity-create" placeholder="" min="0" class="quantity-create form-control-sm form-control">
-                                                            </td>
-                                                            <td align="center">
-                                                                <button type="button" class="item btn-delete-row-size-quantity-create" data-toggle="tooltip" data-placement="top" title="">
-                                                                    <i class="zmdi zmdi-delete"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
+                                                        
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>

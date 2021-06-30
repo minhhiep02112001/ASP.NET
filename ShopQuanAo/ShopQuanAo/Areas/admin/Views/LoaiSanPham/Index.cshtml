@@ -83,7 +83,7 @@
                                 <tr id="row_@item.ID_LOAI_SP">
                                     <td> @Html.DisplayFor(modelItem => item.ID_LOAI_SP)</td>
                                     <td> @Html.DisplayFor(modelItem => item.TEN_LOAI_SP)</td>
-                                    <td> @Html.DisplayFor(modelItem => item.ID_CHA)</td>
+                                    <td> @(Model.SingleOrDefault(c=>c.ID_LOAI_SP == item.ID_CHA) != null ? Model.SingleOrDefault(c => c.ID_LOAI_SP == item.ID_CHA).TEN_LOAI_SP : "")</td>
                                     <td class="process">
 
                                         <span data-id="@item.ID_LOAI_SP" class="badge badge-pill btn-active-lsp @((item.TRANG_THAI == true)?"badge bg-success":"badge bg-danger")">

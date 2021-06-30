@@ -2,7 +2,6 @@
 @{
     Layout = null;
 
-    var sessionCustorm = Session["Customer_Session"] as ShopQuanAo.Session.CustomerSession;
     var sessionCart = Session["CartSession"] as List<ShopQuanAo.Object.CartItem>;
 }
 <header class="header">
@@ -12,69 +11,28 @@
     <div class="header-middle">
         <div class="container header-middle-cont">
             <div class="toplogo">
-                <a href="index.html">
+                <a href="/">
                     <img src="img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
                 </a>
             </div>
             <div class="shop-menu">
                 <ul>
 
-                @*    <li>
-                        <a href="wishlist.html">
-                            <i class="fa fa-heart"></i>
-                            <span class="shop-menu-ttl">Wishlist</span>
-                            (<span id="topbar-favorites">1</span>)
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="compare.html">
-                            <i class="fa fa-bar-chart"></i>
-                            <span class="shop-menu-ttl">Compare</span> (5)
-                        </a>
-                    </li>
-
-                    @if (sessionCustorm != null)
-                    {
-                        <li class="topauth">
-                            <a href="auth.html">
-                                <i class="fa fa-lock"></i>
-                                <span class="shop-menu-ttl">@sessionCustorm.CustomerName</span>
-                            </a>
-                            <a href="auth.html">
-                                <span class="shop-menu-ttl">Logout</span>
-                            </a>
-                        </li>
-             
-                    }
-                    else
-                    {
-                        <li class="topauth">
-                            <a href="@Url.RouteUrl("RouteClient" , new { action  = "Register"})">
-                                <i class="fa fa-lock"></i>
-                                <span class="shop-menu-ttl">Registration</span>
-                            </a>
-                            <a href="@Url.RouteUrl("RouteClient" , new { action  = "Login"})">
-                                <span class="shop-menu-ttl">Login</span>
-                            </a>
-                        </li>
-                    }
-*@
                     <li>
                         <div class="h-cart">
-                            <a href="cart.html">
+                            <a href="/giohang">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="shop-menu-ttl">Cart</span>
                                 (
-                                    @if(sessionCart != null)
-                                    {
-                                        <b> @sessionCart.Sum(a=>a.quantity) </b>
-                                    }
-                                    else
-                                    {
-                                        <b>0</b>
-                                    }
-                                 )
+                                @if (sessionCart != null)
+                                {
+                                    <b> @sessionCart.Sum(a => a.quantity) </b>
+                                }
+                                else
+                                {
+                                    <b>0</b>
+                                }
+                                )
                             </a>
                         </div>
                     </li>
@@ -104,46 +62,21 @@
                             Trang Chủ
                         </a>
                     </li>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Tin Tức 
-                        </a>
+                    
 
-                    </li>
+                    @Html.Action("LoadMenuTop", "Home")
+
                     <li>
-                        <a href="#">
-                            Liên Hệ
+                        <a href="@Url.RouteUrl("RouteClient" , new { action = "BaiViet"})">
+                            Tin Tức
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            Giỏ Hàng 
+                        <a href="/giohang">
+                            Giỏ Hàng
                         </a>
+                    </li>
 
-                    </li>
-                    <li>
-                        @if(sessionCustorm==null){
-                            <a href="@Url.RouteUrl("RouteClient" , new { action = "Register"})">Đăng Ký</a>
-                        }
-                        else
-                        {
-                            @sessionCustorm.CustomerName
-                        }
-
-                    </li>
-                    <li>
-                        @if (sessionCustorm == null)
-                        {
-                            <a href="@Url.RouteUrl("RouteClient" , new { action = "Login"})">Đăng Nhập</a>
-                        }
-                        else
-                        { 
-                            <a href="#">
-                                Đăng Xuất
-                            </a>
-                        }
-                    </li>
                     <li class="mainmenu-more">
                         <span>...</span>
                         <ul class="mainmenu-sub"></ul>
@@ -153,8 +86,8 @@
                 <!-- Search - start -->
                 <div class="topsearch">
                     <a id="topsearch-btn" class="topsearch-btn" href="#"><i class="fa fa-search"></i></a>
-                    <form class="topsearch-form" action="#">
-                        <input type="text" placeholder="Search products">
+                    <form class="topsearch-form" action="@Url.RouteUrl("RouteClient" , new { action = "Search"})">
+                        <input type="text" placeholder="Search products" name="search">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>

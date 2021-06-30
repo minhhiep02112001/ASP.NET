@@ -16,61 +16,7 @@
             $("#Modal-" + id).modal();
         });
 
-        $(document).ready(function () {
-
-            $(".btn-huy-search").off("click").on("click", function (event) {
-                event.preventDefault();
-                location.href = "/admin/hoadon";
-            });
-            $(".btn-search").off("click").on("click", function () {
-
-                var str = "";
-                var ma = $("#MA_HD").val();
-                var ten = $("#TEN_NHAN_HANG").val();
-                var sdt = $("#SDT_NHAN").val();
-                var diachi = $("#DIA_CHI_NHAN").val();
-                var giatien = $("#TONG_TIEN").val();
-                var ghichu = $("#GHI_CHU").val();
-                var status = $("#TRANG_THAI").val();
-
-                if (ma.trim().length > 0 ) {
-                    str += "?search=" + ma;
-
-                }
-
-                if (ten.trim().length > 0) {
-                    str += "&t=" + ten;
-                }
-
-                if (sdt.trim().length > 0) {
-                    str += "&s=" + sdt;
-                }
-
-                if (diachi.trim().length > 0) {
-                    str += "&d=" + diachi;
-                }
-
-                if (giatien.trim().length > 0) {
-                    str += "&p=" + giatien;
-                }
-
-                if (ghichu.trim().length  > 0) {
-                    str += "&g=" + ghichu;
-                }
-                if (status != "") {
-                    str += "&status=" + status;
-                }
-
-                if (str != "") {
-                    str_url = "?";
-                    str_url = str_url.concat(str.slice(1, str.length));
-                    location.href = "." + str_url;
-                }
-
-
-            });
-        });
-
+        
         $(document).ready(function () {
             $(".change-status-bill").off("click").on("click", function (event) {
                 event.preventDefault();
@@ -202,48 +148,7 @@
                     <table class="table table-borderless table-data3 table-lsp">
 
                         <thead>
-                            <tr class="bg-light">
-                                <th width="10%">
-                                    <input class="form-control form-control-sm" type="number" id="MA_HD" placeholder="ID" aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <input class="form-control form-control-sm" type="text" id="TEN_NHAN_HANG" placeholder="Search tên ..." aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <input class="form-control form-control-sm" type="text" id="SDT_NHAN" placeholder="Search sđt ..." aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <input class="form-control form-control-sm" type="text" id="DIA_CHI_NHAN" placeholder="Search địa chỉ ..." aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <input class="form-control form-control-sm" type="text" id="TONG_TIEN" placeholder="Search tiền ..." aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <input class="form-control form-control-sm" type="text" id="GHI_CHU" placeholder="Search ghi chú ..." aria-label=".form-control-sm example">
-                                </th>
-                                <th>
-                                    <select class="form-select form-select-sm" id="TRANG_THAI" aria-label=".form-select-sm example">
-                                        <option value="" selected></option>
-                                        <option value="1">Đặt hàng</option>
-                                        <option value="2">Giao hàng</option>
-                                        <option value="3">Hoàn thành</option>
-                                        <option value="4">Hủy đơn hàng</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <div class="table-data-feature table-data-product">
-                                        <button class="item btn-search"  data-toggle="tooltip" data-placement="top" title="" data-original-title="Tìm Kiếm">
-                                            <i class="zmdi zmdi-search"></i>
-                                        </button>
-                                       
-                                        <button class="item btn-huy-search" data-toggle="tooltip"  data-placement="top" title="" data-original-title="Hủy">
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </button>
-                                    </div>
-                                   
-                                </th>
-
-                            </tr>
+                            
                             <tr>
                                 <th width="10%" class="text-center">ID</th>
                                 <th class="text-center">Tên Người Nhận</th>
@@ -279,9 +184,7 @@
                                             <a class="item btn-view-details" data-id="@item.MA_HD" data-toggle="tooltip" data-placement="top" data-original-title="View">
                                                 <i class="zmdi zmdi-mail-send"></i>
                                             </a>
-                                            <a class="btn item btn-delete-lsp" data-toggle="tooltip" data-id="@item.MA_HD" data-placement="top" title="" data-original-title="Xóa">
-                                                <i class="zmdi zmdi-delete"></i>
-                                            </a>
+                                            
 
                                             <div class="modal fade" id="Modal-@item.MA_HD">
                                                 <div class="modal-dialog modal-xl">
@@ -377,7 +280,7 @@
                             <tr>
                                 <td colspan="8" class="align-items-center">
                                     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page , search = @ViewBag.Search}), new PagedListRenderOptions
                                     {
                                        DisplayLinkToIndividualPages = true,
                                        DisplayPageCountAndCurrentLocation = false,

@@ -10,20 +10,7 @@
 
 @section jsFooter{
     <script>
-        $(document).ready(function () {
-            $(".btn-view-details").off("click").on("click", function (e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-
-                $("#Modal-"+id).modal();
-            });
-
-            $(document).on("click", ".btn-view-edit-sp", function (e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-                location.href = "/admin/sanpham/edit/"+id;
-            });
-        });
+       
     </script>
 }
 @section cssHeader{
@@ -109,13 +96,18 @@
                                 <tr id="row_@item.ID">
                                     <td align="center"> @Html.DisplayFor(modelItem => item.ID)</td>
                                     <td align="center"> @Html.DisplayFor(modelItem => item.HO_TEN)</td>
-                                    <td align="center"> @Html.DisplayFor(modelItem => item.LINK_ANH)</td>
+                                    <td align="center">
+                                        @if (item.LINK_ANH != null)
+                                        {
+                                            <img src="@item.LINK_ANH" style="max-width:100px; max-height:80px;" />
+                                        }
+                                    </td>
                                     <td align="center"> @Html.DisplayFor(modelItem => item.EMAIL)</td>
                                     <td align="center"> @Html.DisplayFor(modelItem => item.PHONE)</td>
                                     <td align="center"> @Html.DisplayFor(modelItem => item.DIA_CHI)</td>
                                     <td align="center" class="process">
 
-                                        <span data-id="@item.ID" class="badge badge-pill btn-active-lsp @((item.TRANG_THAI == true)?"badge bg-success":"badge bg-danger")">
+                                        <span data-id="@item.ID" class="badge badge-pill @((item.TRANG_THAI == true)?"badge bg-success":"badge bg-danger")">
                                             <i class="fa  @((item.TRANG_THAI == true)?"fa-eye":"fa-eye-slash")">@((item.TRANG_THAI == true)? "  Active" : "  Die")</i>
                                         </span>
 

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class TinTucController : Controller
+    public class TinTucController : BaseController
     {
         // GET: admin/TinTuc
         private DAL_TinTuc dalTinTuc { get; set; }
@@ -202,7 +202,12 @@ namespace ShopQuanAo.Areas.admin.Controllers
         // GET: admin/TinTuc/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var result = new DAL_TinTuc().DeleteSlide(id);
+
+            return Json(new
+            {
+                status = (result) ? "success" : "error",
+            }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: admin/TinTuc/Delete/5

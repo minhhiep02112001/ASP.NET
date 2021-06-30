@@ -26,9 +26,9 @@ namespace Models.DAL
         {
             if(search != null)
             {
-                return this.context.LOAI_SAN_PHAM.Where(x =>x.TEN_LOAI_SP.Contains(search)).OrderBy(x => x.ID_CHA).ToPagedList(page, pageSize);
+                return this.context.LOAI_SAN_PHAM.Where(x =>x.TEN_LOAI_SP.Contains(search) && x.IS_REMOVE == false ).OrderBy(x => x.ID_CHA).ToPagedList(page, pageSize);
             }
-            return this.context.LOAI_SAN_PHAM.Select(a=>a).OrderBy(x => x.ID_CHA).ToPagedList(page, pageSize);
+            return this.context.LOAI_SAN_PHAM.Where(a=> a.IS_REMOVE == false).OrderBy(x => x.ID_CHA).ToPagedList(page, pageSize);
         }
         
 
@@ -36,6 +36,7 @@ namespace Models.DAL
         {
             try
             {
+                lsp.IS_REMOVE = false;
                 lsp.NGAY_TAO = DateTime.Now;
                 lsp.TRANG_THAI = false;
                 this.context.LOAI_SAN_PHAM.Add(lsp);
@@ -113,7 +114,7 @@ namespace Models.DAL
             try
             {
                 var lsp = this.context.LOAI_SAN_PHAM.Find(id);
-                this.context.LOAI_SAN_PHAM.Remove(lsp);
+                lsp.IS_REMOVE = true;
                 this.context.SaveChanges();
                 return true;
             }

@@ -12,20 +12,20 @@ namespace Models.EntityFramework
         public int MA_BV { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(250)]
         public string TIEU_DE { get; set; }
 
         [StringLength(255)]
         public string MO_TA { get; set; }
 
         [Required]
-        [StringLength(120)]
+        [StringLength(250)]
         public string SLUG { get; set; }
 
-        [StringLength(100)]
+        [StringLength(250)]
         public string IMAGES { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string NOI_DUNG { get; set; }
 
         public bool? NOI_BAT { get; set; }
@@ -33,5 +33,7 @@ namespace Models.EntityFramework
         public bool? TRANG_THAI { get; set; }
 
         public DateTime? NGAY_DANG { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

@@ -10,7 +10,39 @@
 
 
 @section jsFooter{
-    
+    <script>
+        $(".btn-delete-tintuc").off("click").on("click", function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var id = btn.data("id");
+            console.log(id);
+            Swal.fire({
+                title: 'Delete',
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/TinTuc/Delete/' + id,
+                        dataType: 'json',
+                        type: "get"
+                    }).done(function (data) {
+                        // If successful
+                        if (data.status == "success") {
+                            Swal.fire("", "", data.status);
+                            var row = $(".table-lsp").children("tbody").find("tr#row_" + id);
+                            row.remove();
+                        } else {
+                            Swal.fire("", "", data.status);
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+
 }
 @section cssHeader{
 
@@ -95,12 +127,12 @@
                                 <tr id="row_@item.MA_BV">
                                     <td align="center"> @Html.DisplayFor(modelItem => item.MA_BV)</td>
                                     <td> @Html.DisplayFor(modelItem => item.TIEU_DE)</td>
-                                    <td align="center"> 
-                                        <div class="images" style="max-width:100%;" >
+                                    <td align="center">
+                                        <div class="images" style="max-width:100%;">
                                             <img src="@item.IMAGES" alt="" class="w-100" style="max-height:130px;" />
-                                         </div>
+                                        </div>
                                     </td>
-                                    <td > @Html.DisplayFor(modelItem => item.MO_TA)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.MO_TA)</td>
                                     <td align="center"> @Html.DisplayFor(modelItem => item.NGAY_DANG)</td>
                                     <td align="center" class="process">
 
@@ -125,7 +157,7 @@
                                                 <i class="zmdi zmdi-edit"></i>
                                             </a>
 
-                                            <a class="btn item btn-delete-lsp" data-toggle="tooltip" data-id="@item.MA_BV" data-placement="top" title="" data-original-title="Delete">
+                                            <a class="btn item btn-delete-tintuc" data-toggle="tooltip" data-id="@item.MA_BV" data-placement="top" title="" data-original-title="Delete">
                                                 <i class="zmdi zmdi-delete"></i>
                                             </a>
 

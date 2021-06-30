@@ -21,7 +21,7 @@ namespace Models.DAL
         public List<ACOUNT> GetPageUsers(int page, int itemsPerPage, out int totalCount)
         {
             var list = new List<ACOUNT>();
-            var arrUser = this.context.ACOUNTs.Select(a => a).OrderBy(c => c.NGAY_DANG_KY).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+            var arrUser = this.context.ACOUNTs.Where(a => a.IS_REMOVE == false).OrderBy(c => c.NGAY_DANG_KY).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
             foreach (var item in arrUser)
             {
                 list.Add(item);
@@ -49,7 +49,6 @@ namespace Models.DAL
             {
                 
                 user.NGAY_DANG_KY = DateTime.Now;
-                user.TRANG_THAI = false;
                 this.context.ACOUNTs.Add(user);
                 this.context.SaveChanges();
                 return true;
@@ -77,6 +76,7 @@ namespace Models.DAL
                     {
                         acount.MAT_KHAU =user.MAT_KHAU;
                     }
+                    acount.TRANG_THAI = user.TRANG_THAI;
                     this.context.SaveChanges();
                     return true;
                 }
@@ -97,9 +97,18 @@ namespace Models.DAL
 
         public ACOUNT getAcountEmail( string email)
         {
-            return this.context.ACOUNTs.SqlQuery("Select * from Acount where Email = '"+email+"'").FirstOrDefault();
+            return this.context.ACOUNTs.SqlQuery("Select * from Acount where Email = '"+email+ "' and IS_REMOVE = 0;").FirstOrDefault();
         }
 
-     
+        public bool DeleteUser(int id)
+        {
+            var user = this.context.ACOUNTs.Find(id);
+            if (user != null)
+            {
+                user.IS_REMOVE = true;
+                this.context.SaveChanges();
+            }
+            return true;
+        }
     }
 }

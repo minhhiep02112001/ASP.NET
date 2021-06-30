@@ -12,17 +12,17 @@ namespace Models.EntityFramework
         public int ID { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(250)]
         public string EMAIL { get; set; }
 
-        [StringLength(100)]
+        [StringLength(250)]
         public string MAT_KHAU { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string LINK_ANH { get; set; }
 
         [Required]
-        [StringLength(35)]
+        [StringLength(50)]
         public string HO_TEN { get; set; }
 
         [Required]
@@ -32,9 +32,11 @@ namespace Models.EntityFramework
         public DateTime? NGAY_DANG_KY { get; set; }
 
         [Required]
-        [StringLength(40)]
+        [StringLength(250)]
         public string DIA_CHI { get; set; }
 
         public bool? TRANG_THAI { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

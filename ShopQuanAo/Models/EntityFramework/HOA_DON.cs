@@ -11,14 +11,12 @@ namespace Models.EntityFramework
         [Key]
         public int MA_HD { get; set; }
 
-        public int ID_KH { get; set; }
-
-        [StringLength(30)]
+        [StringLength(50)]
         public string TEN_NHAN_HANG { get; set; }
 
         public DateTime? NGAY_MUA { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string DIA_CHI_NHAN { get; set; }
 
         [StringLength(15)]
@@ -28,7 +26,9 @@ namespace Models.EntityFramework
 
         public int? TRANG_THAI { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string GHI_CHU { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

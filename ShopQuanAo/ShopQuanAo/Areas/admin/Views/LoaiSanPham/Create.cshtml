@@ -9,7 +9,7 @@
 <div class="section__content section__content--p30 mt-3">
     <div class="container-fluid">
         <div class="row ml-0 mr-0">
-            @using (Html.BeginForm("Index", "LoaiSanPham", FormMethod.Post, new { @class = "w-100" }))
+            @using (Html.BeginForm("Create", "LoaiSanPham", FormMethod.Post, new { @class = "w-100" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="card w-100">

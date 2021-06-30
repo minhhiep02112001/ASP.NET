@@ -20,6 +20,8 @@ namespace ShopQuanAo.Areas.admin.Data
 
         public int? ID_CHA { get; set; }
 
+        public bool? IS_REMOVE { get; set; }
+
         public DateTime? NGAY_TAO { get; set; }
     }
 
@@ -42,6 +44,7 @@ namespace ShopQuanAo.Areas.admin.Data
                 option.TEN_LOAI_SP = item.TEN_LOAI_SP;
                 option.SLUG = item.SLUG;
                 option.TRANG_THAI = item.TRANG_THAI;
+                option.IS_REMOVE = item.IS_REMOVE;
                 this.listDanhSach.Add(option);
             }
         }
@@ -83,9 +86,9 @@ namespace ShopQuanAo.Areas.admin.Data
         {
             foreach (var item in this.listDanhSach)
             {
+                
                 if (item.ID_CHA == id)
-                {
-
+                { 
                     listLSP.Add(item);
                     this.getChildenLoaiSanPham(listLSP, item.ID_LOAI_SP);
                 }

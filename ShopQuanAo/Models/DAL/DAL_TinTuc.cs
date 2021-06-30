@@ -17,7 +17,7 @@ namespace Models.DAL
         public List<BAI_VIET> GetPageSlides(int page, int itemsPerPage, out int totalCount)
         {
             var list = new List<BAI_VIET>();
-            var arrTinTuc = this.context.BAI_VIET.Select(a => a).OrderBy(c => c.NGAY_DANG).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+            var arrTinTuc = this.context.BAI_VIET.Where(a => a.IS_REMOVE==false).OrderBy(c => c.NGAY_DANG).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
             foreach (var item in arrTinTuc)
             {
                 list.Add(item);
@@ -44,7 +44,7 @@ namespace Models.DAL
             try
             {
                 baiviet.NGAY_DANG = DateTime.Now;
-                
+                baiviet.IS_REMOVE = false;
                 this.context.BAI_VIET.Add(baiviet);
                 this.context.SaveChanges();
                 return true;
@@ -78,15 +78,17 @@ namespace Models.DAL
             }
         }
 
-        public bool DeleteTinTuc (int ma)
+        public bool DeleteSlide(int ma)
         {
             try
             {
                 var tintuc = this.context.BAI_VIET.Find(ma);
                 if(tintuc != null)
                 {
-                    this.context.BAI_VIET.Remove(tintuc);
-                }                return true;
+                    tintuc.IS_REMOVE = true;
+                    this.context.SaveChanges();
+                }
+                return true;
             }
             catch
             {

@@ -15,7 +15,7 @@ using ShopQuanAo.Areas.admin.Data;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private ShopQuanAoContext db = new ShopQuanAoContext();
 
@@ -64,7 +64,8 @@ namespace ShopQuanAo.Areas.admin.Controllers
         {
             try
             {
-
+                aCOUNT.TRANG_THAI = Request.Form["HienThi"].Contains("true") ? true : false;
+                aCOUNT.IS_REMOVE = false;
                 var sql = "Select * from ACOUNT where EMAIL = N'" + aCOUNT.EMAIL + "';";
                 var checksdt = this.dalUsers.sqlQueryFristOrDefault("Select * from ACOUNT where PHONE = N'" + aCOUNT.PHONE + "';");
                 var checkemail = this.dalUsers.sqlQueryFristOrDefault(sql);
@@ -183,7 +184,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
         {
             try
             {
-
+                aCOUNT.TRANG_THAI = Request.Form["HienThi"].Contains("true") ? true : false;
                 var sql = "Select * from ACOUNT where ID !='"+aCOUNT.ID+"' AND EMAIL = N'" + aCOUNT.EMAIL + "';";
                 var checksdt = this.dalUsers.sqlQueryFristOrDefault("Select * from ACOUNT where ID !='" + aCOUNT.ID + "' AND PHONE = N'" + aCOUNT.PHONE + "';");
                 var checkemail = this.dalUsers.sqlQueryFristOrDefault(sql);
@@ -224,11 +225,6 @@ namespace ShopQuanAo.Areas.admin.Controllers
                     else
                     {
 
-                        if (System.IO.File.Exists(Server.MapPath(str_file)))
-                        {
-                            this.DropFileImages(str_file);
-                        }
-
                         ViewBag.Success = "Sửa Thành Công !!!";
                        
                         return RedirectToAction("Index");
@@ -248,39 +244,18 @@ namespace ShopQuanAo.Areas.admin.Controllers
         }
 
         // GET: admin/Users/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ACOUNT aCOUNT = db.ACOUNTs.Find(id);
+            var result = new DAL_Users().DeleteUser(id);
 
-            if (aCOUNT == null)
+            return Json(new
             {
-                return HttpNotFound();
-            }
-            return View(aCOUNT);
+                status = (result) ? "success" : "error",
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: admin/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            ACOUNT aCOUNT = db.ACOUNTs.Find(id);
-            db.ACOUNTs.Remove(aCOUNT);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+       
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

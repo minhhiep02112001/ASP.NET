@@ -11,14 +11,14 @@ namespace Models.EntityFramework
     {
         public int ID { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string TIEU_DE { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(250)]
         public string LINK { get; set; }
 
-        [StringLength(100)]
+        [StringLength(250)]
         public string IMAGES { get; set; }
 
         public byte? STT { get; set; }
@@ -28,5 +28,7 @@ namespace Models.EntityFramework
         public bool? NOI_BAT { get; set; }
 
         public DateTime? NGAY_DANG { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

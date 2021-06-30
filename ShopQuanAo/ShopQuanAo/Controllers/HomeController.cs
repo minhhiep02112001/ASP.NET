@@ -2,7 +2,7 @@
 using Models.EntityFramework;
 using PagedList;
 using ShopQuanAo.Areas.admin.Data;
-using ShopQuanAo.Objects;
+
 using ShopQuanAo.Session;
 using System;
 using System.Collections.Generic;
@@ -31,14 +31,14 @@ namespace ShopQuanAo.Controllers
         [ChildActionOnly]
         public ActionResult LoadParentMenu()
         {
-            var parentCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == 0).ToList();
+            var parentCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == 0 && a.IS_REMOVE == false && a.TRANG_THAI == true).ToList();
             return PartialView("_LoadParentMenu", parentCategory);
         }
 
         [ChildActionOnly]
         public ActionResult LoadChilden( int parentID)
         {
-            var childenCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == parentID).ToList();
+            var childenCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == parentID && a.IS_REMOVE == false && a.TRANG_THAI == true).ToList();
             ViewBag.Count = childenCategory.Count();
             return PartialView("_LoadChilden", childenCategory);
         }
@@ -48,9 +48,9 @@ namespace ShopQuanAo.Controllers
         public ActionResult LoadPopularProducts()
         {
             var arrCategory = new List<LOAI_SAN_PHAM>();
-            var parentCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == 0).ToList();
+            var parentCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == 0 && a.TRANG_THAI==true && a.IS_REMOVE == false).ToList();
 
-            if (parentCategory.Count() > 0)
+            /*if (parentCategory.Count() > 0)
             {
                 foreach (var item in parentCategory)
                 {
@@ -69,8 +69,8 @@ namespace ShopQuanAo.Controllers
                         }
                     }
                 }
-            }
-            return PartialView("_LoadPopularProducts", arrCategory);
+            }*/
+            return PartialView("_LoadPopularProducts", parentCategory);
         }
 
         [ChildActionOnly]
@@ -84,7 +84,7 @@ namespace ShopQuanAo.Controllers
             {
                 foreach(var item in listArrCategory)
                 {
-                    var arr = this.context.SAN_PHAM.Where(c => c.ID_LSP == item.ID_LOAI_SP && c.TRANG_THAI == true).ToList();
+                    var arr = this.context.SAN_PHAM.Where(c => c.ID_LSP == item.ID_LOAI_SP && c.TRANG_THAI == true && c.IS_REMOVE == false).ToList();
                     if (arr.Count() > 0)
                     {
                         foreach(var i in arr)
@@ -101,7 +101,7 @@ namespace ShopQuanAo.Controllers
         public ActionResult LoadProductNew()
         {
             // Show 15 sản phẩm mới nhất
-            var arrProduct = this.context.SAN_PHAM.Where(a => a.TRANG_THAI == true).OrderBy(c=>c.NGAY_TAO).Skip(0).Take(15);
+            var arrProduct = this.context.SAN_PHAM.Where(a => a.TRANG_THAI == true).OrderBy(c=>c.NGAY_TAO).Skip(0).Take(12);
             return PartialView("_LoadProductNew", arrProduct);
         }
 
@@ -114,14 +114,20 @@ namespace ShopQuanAo.Controllers
             var arrBaiViet = this.context.BAI_VIET.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderByDescending(c => c.NGAY_DANG).Skip(0).Take(6);
             return PartialView("_LoadPostsHot", arrBaiViet);
         }
-
+        [ChildActionOnly]
+        public ActionResult LoadMenuTop()
+        {
+            var childenCategory = this.context.LOAI_SAN_PHAM.Where(a => a.ID_CHA == 0 && a.IS_REMOVE==false && a.TRANG_THAI == true).Take(4).OrderBy(c=>c.NGAY_TAO).ToList();
+           
+            return PartialView("_LoadMenuTop", childenCategory);
+        }
 
         [HttpGet]
         public ActionResult Index()
         {
             var arrBaiViet = this.context.BAI_VIET.Where(a => a.TRANG_THAI == true ).OrderByDescending(c => c.NGAY_DANG).Skip(0).Take(3);
-            var arrSlides = this.context.SLIDEs.Where(a => a.TRANG_THAI == true).OrderByDescending(c=>c.NGAY_DANG);
-            ViewBag.ProductHot = this.context.SAN_PHAM.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderByDescending(c => c.NGAY_TAO);
+            var arrSlides = this.context.SLIDEs.Where(a => a.TRANG_THAI == true && a.IS_REMOVE==false).OrderBy(b => b.STT).OrderBy(c=>c.STT).ToList();
+            ViewBag.ProductHot = this.context.SAN_PHAM.Where(a => a.TRANG_THAI == true && a.NOI_BAT == true).OrderByDescending(c => c.NGAY_TAO).Take(12).ToList();
             ViewBag.ListArticleHot = arrBaiViet;
             ViewBag.ListSlide = arrSlides;
             return View();
@@ -164,15 +170,42 @@ namespace ShopQuanAo.Controllers
         }
 
         [HttpGet]
-        public ActionResult DanhMuc(string id , int? page , int pageSize = 10)
+        public ActionResult DanhMuc(string id , int? page , int pageSize = 12 , string price = null)
         {
             var danhmuc = this.context.LOAI_SAN_PHAM.Where(a => a.SLUG == id).FirstOrDefault();
             
-            if (danhmuc == null)
+            if (danhmuc == null || danhmuc.IS_REMOVE == true || danhmuc.TRANG_THAI == false)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var str_price = "";
+            
+            if (price != null)
+            {
+      
+                if (price == "all")
+                {
+                    str_price = "";
+                }
+                else if(price =="50000000")
+                {
+                    str_price = "AND GIA_BAN >= 50000000";
+                }
+                else
+                {
+                    var arr = price.Split('-');
+                    if(arr.Length == 2)
+                    {
+                        str_price = String.Format("AND GIA_BAN BETWEEN {0} AND {1};", arr[0] , arr[1]);
+                    }
+                    else
+                    {
+                        str_price = "";
+                    }
+                }
+            }
 
+            ViewBag.Search= price;
             ViewBag.Danhmuc = danhmuc;
             var listArrCategory = new List<LOAI_SAN_PHAM>();
             listArrCategory.Add(danhmuc);
@@ -188,7 +221,7 @@ namespace ShopQuanAo.Controllers
                 str = string.Join(",", arr.ToArray());
             }
             int pagenumber = (page ?? 1);
-            string sql = String.Format("Select * FROM SAN_PHAM WHERE SAN_PHAM.ID_LSP IN({0})",str);
+            string sql = String.Format("Select * FROM SAN_PHAM WHERE SAN_PHAM.ID_LSP IN({0}) AND IS_REMOVE = 0 AND TRANG_THAI=1 {1}",str,str_price);
             var arrSanPham = this.context.SAN_PHAM.SqlQuery(sql).ToPagedList(pagenumber, pageSize);
 
             // 5. Trả về các Link được phân trang theo kích thước và số trang.
@@ -231,7 +264,7 @@ namespace ShopQuanAo.Controllers
         [ChildActionOnly]
         public ActionResult LoadProductNoiBat()
         {
-            var arrSanPham = this.context.SAN_PHAM.Where(a => a.NOI_BAT == true && a.TRANG_THAI == true).OrderBy(c=>c.NGAY_TAO).Skip(0).Take(12);
+            var arrSanPham = this.context.SAN_PHAM.Where(a => a.NOI_BAT == true && a.TRANG_THAI == true && a.IS_REMOVE==false).OrderBy(c=>c.NGAY_TAO).Skip(0).Take(12);
             return PartialView("_LoadProductNoiBat", arrSanPham);
         }
         [HttpGet]
@@ -246,10 +279,11 @@ namespace ShopQuanAo.Controllers
                     product = this.context.SAN_PHAM.Where(a => a.MA_SP == id_product.MA_SP).FirstOrDefault();
                 }
             }
-            if(product == null)
+            if(product == null || product.IS_REMOVE == true || product.TRANG_THAI == false)
             {
                  return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.CategoryName = this.context.LOAI_SAN_PHAM.SingleOrDefault(c => c.ID_LOAI_SP == product.ID_LSP) != null ? this.context.LOAI_SAN_PHAM.SingleOrDefault(c => c.ID_LOAI_SP == product.ID_LSP).TEN_LOAI_SP : "";
             return View(product);
         }
         //ajax load size sản phẩm chi tiết
@@ -269,14 +303,14 @@ namespace ShopQuanAo.Controllers
         [HttpGet]
         public ActionResult BaiViet(int page = 1)
         {
-            var arrBaiViet =this.context.BAI_VIET.Where(a=>a.TRANG_THAI== true).OrderBy(c=>c.NGAY_DANG).ToPagedList(page , 12);
+            var arrBaiViet =this.context.BAI_VIET.Where(a=>a.TRANG_THAI== true && a.IS_REMOVE == false).OrderBy(c=>c.NGAY_DANG).ToPagedList(page , 12);
             return View(arrBaiViet);
         }
 
         [HttpGet]
         public ActionResult ChiTietBaiViet(string id)
         {
-            var baiviet = this.context.BAI_VIET.Where(a => a.SLUG == id).FirstOrDefault();
+            var baiviet = this.context.BAI_VIET.Where(a => a.SLUG == id && a.IS_REMOVE == false).FirstOrDefault();
             if(baiviet == null)
             {
                 return RedirectToAction("BaiViet", "Home");
@@ -284,94 +318,51 @@ namespace ShopQuanAo.Controllers
             return View(baiviet);
         }
 
-        public ActionResult About()
+        public ActionResult Search( string search = null, int page =1, int pageSize = 12, string price = null)
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.SearchPrice = price;
+            ViewBag.Search = search;
+            
+            var str_price = "";
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Login(CustomerLogin customer)
-        {
-            var dal_KH = new DAL_Customer();
-
-            if (ModelState.IsValid)
+            if (price != null)
             {
-                customer.MatKhau = MaHoaMD5.GetHash(customer.MatKhau);
-                var kHACH_HANG = this.context.KHACH_HANG.Where(c=>c.EMAIL == customer.TaiKhoan).FirstOrDefault();
-                if (kHACH_HANG != null)
+
+                if (price == "all")
                 {
-                    if (kHACH_HANG.MK == customer.MatKhau)
+                    str_price = "";
+                }
+                else if (price == "50000000")
+                {
+                    str_price = "AND GIA_BAN >= 50000000";
+                }
+                else
+                {
+                    var arr = price.Split('-');
+                    if (arr.Length == 2)
                     {
-                        var customerSession = new CustomerSession();
-                        customerSession.CustomerName = kHACH_HANG.TEN_KH;
-                        customerSession.CustomerID = kHACH_HANG.ID;
-                        Session.Add("Customer_Session", customerSession);
-                        return RedirectToRoute("RouteClient", new { action = "Index" });
+                        str_price = String.Format("AND GIA_BAN BETWEEN {0} AND {1};", arr[0], arr[1]);
                     }
                     else
                     {
-
-                        ViewBag.AddModelError = "Mật khẩu không đúng";
-                        return View("Login");
+                        str_price = "";
                     }
                 }
-                else
-                {
-                    ViewBag.AddModelError = "Tài khoản không tồn tại";
-                    return View("Login");
-                }
             }
-            return View();
+            var str = (search != null) ? search : "";
+          
+            string sql = String.Format("Select * FROM SAN_PHAM WHERE SAN_PHAM.TEN_SP LIKE N'%{0}%' {1}", str, str_price);
+            var arrSanPham = this.context.SAN_PHAM.SqlQuery(sql).ToPagedList(page, pageSize);
+            return View(arrSanPham);
         }
-        
-        [HttpGet]
-        public ActionResult Register()
-        {
-            return View();
-        }
+
+       
 
         
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(KHACH_HANG customer)
-        {
 
-            if (ModelState.IsValid)
-            {
-                var EmailExists = this.context.KHACH_HANG.Where(c => c.EMAIL == customer.EMAIL).SingleOrDefault();
-                if (EmailExists != null)
-                {
-                    ViewBag.ErrorRegister = "Email đã tồn tại";
-                    return View();
-                }
-
-                else
-                {
-                    customer.TRANG_THAI = true;
-                    customer.MK = MaHoaMD5.GetHash(customer.MK);
-                    this.context.KHACH_HANG.Add(customer);
-                    this.context.SaveChanges();
-                    ViewBag.Success = "Tạo thành công";
-                    return RedirectToRoute("RouteClient", new { action = "Login" });
-                }
-            }
-            return View();
-        }
+       
+        
+      
 
     }
 }

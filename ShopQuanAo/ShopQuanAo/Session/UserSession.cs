@@ -9,5 +9,6 @@ namespace ShopQuanAo.Session
     {
         public string UserName { set; get; }
         public int UserID { set; get; }
+        public string image { get; set; }
     }
 }

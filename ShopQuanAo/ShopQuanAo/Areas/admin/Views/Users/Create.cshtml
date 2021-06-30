@@ -115,7 +115,14 @@
                                 @Html.ValidationMessageFor(model => model.MAT_KHAU, "", new { @class = "help-block form-text text-danger" })
                             </div>
                         </div>
-
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Kích Hoạt :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("HienThi", false)
+                            </div>
+                        </div>
 
                     </div>
                     <div class="card-footer">

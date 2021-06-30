@@ -55,7 +55,7 @@
                                 <div class="upload-image-details">
                                     <div class="wrapper">
                                         <div class="image">
-                                            <img src="" alt="Chọn File">
+                                            <img src="@Model.LINK_ANH" alt="Chọn File">
                                         </div>
                                         <div class="content">
                                             <div class="icon">
@@ -109,14 +109,21 @@
                         <div class="row form-group mb-3">
                             <div class="col col-md-3">
                                 <label for="email-input" class=" form-control-label">Mật Khẩu :</label>
-                                 
+
                             </div>
                             <div class="col-12 col-md-9">
                                 <input type="password" name="password" class="form-control" maxlength="70" placeholder="Thay đổi mật khẩu !!!" />
                             </div>
                         </div>
 
-
+                        <div class="row form-group mb-3">
+                            <div class="col col-md-3">
+                                <label for="select" class=" form-control-label">Kích Hoạt :</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.CheckBox("HienThi", Model.TRANG_THAI.Value)
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary btn-sm">

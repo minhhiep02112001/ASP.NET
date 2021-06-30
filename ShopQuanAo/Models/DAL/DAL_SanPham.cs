@@ -21,6 +21,7 @@ namespace Models.DAL
         {
             try
             {
+                sp.IS_REMOVE = false;
                 this.context.SAN_PHAM.Add(sp);
                 this.context.SaveChanges();
                 return true;
@@ -37,19 +38,19 @@ namespace Models.DAL
             var arrSanPham = new List<SAN_PHAM>();
             if (search!= null)
             {
-                arrSanPham = this.context.SAN_PHAM.Where(a => a.TEN_SP.Contains(search)).OrderBy(c => c.NGAY_TAO).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+                arrSanPham = this.context.SAN_PHAM.Where(a => a.TEN_SP.Contains(search) && a.IS_REMOVE == false).OrderBy(c => c.NGAY_TAO).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+                totalCount = this.context.SAN_PHAM.Where(a => a.TEN_SP.Contains(search) && a.IS_REMOVE == false).Count();
             }
             else
             {
-                arrSanPham = this.context.SAN_PHAM.Select(a => a).OrderBy(c => c.NGAY_TAO).Skip(itemsPerPage * page).Take(itemsPerPage)
+                arrSanPham = this.context.SAN_PHAM.Where(a => a.IS_REMOVE == false).OrderBy(c => c.NGAY_TAO).Skip(itemsPerPage * page).Take(itemsPerPage)
                      .ToList();
+                totalCount = this.context.SAN_PHAM.Where(a => a.IS_REMOVE == false).Count();
             }
             foreach ( var item in arrSanPham)
             {
                 list.Add(convertSanPham(item));
             }
-
-            totalCount = this.context.SAN_PHAM.Count();
             return list;
         }
 
@@ -162,6 +163,14 @@ namespace Models.DAL
                     {
                         sanpham.LINK_ANH_CHINH = sp.LINK_ANH_CHINH;
                     }
+                    if (sp.NOI_BAT != null)
+                    {
+                        sanpham.NOI_BAT = sp.NOI_BAT;
+                    }
+                    if (sp.TRANG_THAI != null)
+                    {
+                        sanpham.TRANG_THAI = sp.TRANG_THAI;
+                    }
                     if (sp.LIST_ANH_KEM != "")
                     {
                         sanpham.LIST_ANH_KEM = sp.LIST_ANH_KEM;
@@ -182,7 +191,22 @@ namespace Models.DAL
             }
         }
 
-    }
+        public bool deleteSP(string id)
+        {
+            var sp = this.context.SAN_PHAM.SingleOrDefault(a => a.MA_SP == id);
+            if(sp!= null)
+            {
+                sp.IS_REMOVE = true;
+                this.context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
+    }
+    
 
 }

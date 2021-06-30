@@ -543,9 +543,12 @@ function ValidateData() {
 jQuery(document).ready(function ($) {
     $(".btn-submit-product").off("click").on("click", function (e) {
         e.preventDefault();
-        e.preventDefault();
+        
         var status = false;
         status = ValidateData();
+
+        var noibat = $("#noibat").prop("checked");
+        var hienthi = $("#hienthi").prop("checked");
         var ma_sp = $("#ma-san-pham").val();
         var lsp = $(".loai-san-pham").val();
         var ten_sp = $("#ten-san-pham").val();
@@ -580,6 +583,8 @@ jQuery(document).ready(function ($) {
         formData.append("mo-ta", moTa);
         formData.append("mo-ta-chi-tiet", moTaChiTiet);
         formData.append("details", sp_ct);
+        formData.append("noi-bat", noibat);
+        formData.append("hien-thi", hienthi);
         formData.append("anh-chinh", $("#product-images").prop('files')[0]);
         for (var i = 0; i < $("#product-list-img").prop('files').length; i++) {
             formData.append("list-anh", $("#product-list-img").prop('files')[i]);
@@ -600,6 +605,10 @@ jQuery(document).ready(function ($) {
             dataType: "json",
             success: function (data) {
                 Swal.fire("", "", data.status);
+             
+                if (data.status == "success") {
+                    setTimeout(function () { location.reload() }, 1000);
+                }
             }
         });
     })

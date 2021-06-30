@@ -11,15 +11,17 @@ namespace Models.EntityFramework
     {
         public int ID { get; set; }
 
-        [StringLength(15)]
+        [StringLength(50)]
         public string TEN_SIZE { get; set; }
 
-        [StringLength(20)]
+        [StringLength(50)]
         public string SLUG { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string MO_TA { get; set; }
 
         public bool? TRANG_THAI { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

@@ -41,13 +41,13 @@ namespace ShopQuanAo.Controllers
                 var product = this.context.SAN_PHAM.Find(productDetails.MA_SP);
                 cartItem.productID = product.MA_SP;
                 cartItem.quantity = quantity;
-                cartItem.GIA_BAN = product.GIA_BAN;
+                cartItem.GIA_BAN = product.GIA_BAN - (int)(product.GIAM_GIA * product.GIA_BAN)/100;
                 cartItem.SLUG = product.SLUG;
                 cartItem.Color = this.context.COLORs.Find(productDetails.ID_COLOR).TEN_MAU;
                 cartItem.Size = this.context.SIZEs.Find(productDetails.ID_SIZE).TEN_SIZE;   
                 cartItem.TEN_SP = product.TEN_SP;
                 cartItem.Image = product.LINK_ANH_CHINH;
-                cartItem.DetailsProductID = productDetails.ID;
+                cartItem.DetailsProductID = int.Parse( productDetails.ID.ToString());
                 int soluongcon = ( productDetails.SO_LUONG ?? 0);
                 if(soluongcon > 1)
                 {
@@ -106,13 +106,103 @@ namespace ShopQuanAo.Controllers
             return RedirectToRoute("giohang", new { action = "Index" });
         }
 
-        public ActionResult ThanhToan()
+        public ActionResult Delete(int id)
         {
+            var cart = Session[CartSession];
+           
+            if (cart != null)
+            {
+                var list = (List<CartItem>)cart;
+                if(list.Exists(c=>c.DetailsProductID == id))
+                {
+                    var cartitem = list.SingleOrDefault(c=>c.DetailsProductID == id);
+                    list.Remove(cartitem);
+                }
+                Session[CartSession] = list;
+            }
+            return Json(new
+            {
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
 
-            
+        public ActionResult Update(int id , int quantity)
+        {
+            var cart = Session[CartSession];
 
+            if (cart != null)
+            {
+                var list = (List<CartItem>)cart;
+                if (list.Exists(c => c.DetailsProductID == id))
+                {
+                    var cartItem = list.SingleOrDefault(c => c.DetailsProductID == id);
+                   
+                    if (quantity == 0)
+                    {
+                        list.Remove(cartItem);
+                    }
+                    else
+                    {
+                        cartItem.quantity = quantity;
+                    }
+                }
+                Session[CartSession] = list;
+            }
+            return Json(new
+            {
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ThanhToan(FormCollection formCollection)
+        {
+            var cart = Session[CartSession];
+
+            if (cart == null)
+            {
+                return RedirectToRoute("giohang",new { action = "Index" });
+            }
+            var list = (List<CartItem>)cart;
+            if (list.Count == 0)
+            {
+                return RedirectToRoute("giohang", new { action = "Index" });
+            }
+            var name = formCollection["username"];
+            var phone = formCollection["phone"];
+            var diachi = formCollection["diachi"];
+            var note = formCollection["note"];
+            var order = new HOA_DON();
+            order.GHI_CHU = note;
+            order.IS_REMOVE = false;
+            order.NGAY_MUA = DateTime.Now;
+            order.SDT_NHAN = phone;
+            order.TEN_NHAN_HANG = name;
+            order.DIA_CHI_NHAN = diachi;
+            order.TRANG_THAI = 1;
+            order.TONG_TIEN = list.Sum(x => (x.GIA_BAN * x.quantity));
+            var hd =  this.context.HOA_DON.Add(order);
+            this.context.SaveChanges();
+            foreach(var item in list)
+            {
+                var cthd = new CHI_TIET_HOA_DON();
+                cthd.SL_MUA = item.quantity;
+                cthd.SP_SIZE_MAU = item.TEN_SP + item.Size + item.Color;
+                cthd.ID_SP_CT = item.DetailsProductID;
+                cthd.DON_VI_TINH = (this.context.SAN_PHAM.SingleOrDefault(c => c.MA_SP == item.productID) != null) ? this.context.SAN_PHAM.SingleOrDefault(c => c.MA_SP == item.productID).DON_VI_TINH:"null";
+                cthd.GIA_BAN = item.GIA_BAN;
+                cthd.ID_HD = hd.MA_HD;
+                cthd.IS_REMOVE = false;
+                this.context.CHI_TIET_HOA_DON.Add(cthd);
+                this.context.SaveChanges();
+            }
+            Session["ThanhToan"] = "Đặt hàng thành công";
+            Session.Remove(CartSession);
             return RedirectToRoute("giohang", new { action = "Index" });
         }
+
+
 
     }
 }

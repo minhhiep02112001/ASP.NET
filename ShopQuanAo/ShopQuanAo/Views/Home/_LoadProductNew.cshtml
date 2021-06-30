@@ -13,7 +13,7 @@
            @* <a href="@Url.Action("SanPham" , "Home" , new { id = item.SLUG})">@item.TEN_SP</a>*@
         </h3>
         <p class="discounts-i-price">
-            <b>$115</b> <del>$135</del>
+            <b>@String.Format("{0:0,0}", item.GIA_BAN - (item.GIA_BAN * item.GIAM_GIA)/100)</b> VND
         </p>
     </li>
 }

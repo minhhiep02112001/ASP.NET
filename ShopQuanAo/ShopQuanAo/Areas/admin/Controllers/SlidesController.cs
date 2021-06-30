@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class SlidesController : Controller
+    public class SlidesController : BaseController
     {
         // GET: admin/Slides
         private DAL_Slides DalSlides { get; set; }
@@ -59,6 +59,14 @@ namespace ShopQuanAo.Areas.admin.Controllers
                     else
                     {
                         slides.IMAGES = SaveUploadImage(Request.Files.Get("images"));
+                    }
+                    if (Request.Form["is_active"] != null)
+                    {
+                        slides.TRANG_THAI = Boolean.Parse(Request.Form["is_active"]);
+                    }
+                    else
+                    {
+                        slides.TRANG_THAI = false;
                     }
                     if (!this.DalSlides.InsertSlides(slides))
                     {
@@ -134,7 +142,11 @@ namespace ShopQuanAo.Areas.admin.Controllers
             try
             {
                 var sql = "Select * from SLIDE where id!='"+slides.ID+"' and  TIEU_DE = N'" + slides.TIEU_DE + "';";
-                var check = this.DalSlides.sqlQueryFristOrDefault(sql);
+                bool check = DalSlides.sqlQueryFristOrDefault(sql);
+                if (Request.Form["is_active"] != null)
+                {
+                    slides.TRANG_THAI = Boolean.Parse(Request.Form["is_active"]);
+                }
                 if (ModelState.IsValid && check == false)
                 {
                     if (Request.Files.Get("images").ContentLength == 0)
@@ -173,7 +185,12 @@ namespace ShopQuanAo.Areas.admin.Controllers
         // GET: admin/Slides/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var result = new DAL_Slides().DeleteSlide(id);
+
+            return Json(new
+            {
+                status = (result) ? "success" : "error",
+            }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: admin/Slides/Delete/5

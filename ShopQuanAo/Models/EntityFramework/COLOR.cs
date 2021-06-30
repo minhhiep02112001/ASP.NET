@@ -12,13 +12,13 @@ namespace Models.EntityFramework
         public int ID { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(250)]
         public string TEN_MAU { get; set; }
 
-        [StringLength(20)]
+        [StringLength(250)]
         public string SLUG { get; set; }
 
-        [StringLength(30)]
+        [StringLength(250)]
         public string MA_MAU { get; set; }
 
         [StringLength(20)]

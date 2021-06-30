@@ -19,7 +19,7 @@ namespace ShopQuanAo.Areas.admin
             context.MapRoute(
                 "admin_default",
                 "admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { controller ="TrangChu", action = "Index", id = UrlParameter.Optional }
             );
             context.MapRoute(
                 "edit-details-product",

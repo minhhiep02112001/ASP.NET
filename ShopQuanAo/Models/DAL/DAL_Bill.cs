@@ -25,7 +25,7 @@ namespace Models.DAL
 
             if (!string.IsNullOrEmpty(str_search))
             {
-                var arrBill = this.context.HOA_DON.SqlQuery("Select * from Hoa_Don where "+str_search).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+                var arrBill = this.context.HOA_DON.SqlQuery("Select * from Hoa_Don where "+str_search ).OrderByDescending(c=>c.MA_HD).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
                 foreach (var item in arrBill)
                 {
                     list.Add(this.ConvertModelBill(item));
@@ -34,7 +34,7 @@ namespace Models.DAL
             }
             else
             {
-                var arrBill = this.context.HOA_DON.Select(a => a).OrderBy(c => c.NGAY_MUA).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
+                var arrBill = this.context.HOA_DON.Where(a => a.IS_REMOVE == false).OrderByDescending(c => c.MA_HD).Skip(itemsPerPage * page).Take(itemsPerPage).ToList();
                 foreach (var item in arrBill)
                 {
                     list.Add(this.ConvertModelBill(item));
@@ -50,7 +50,7 @@ namespace Models.DAL
             var bill = new ModelBills();
             var listDetailsBill = new DAL_DetailsBill().getListDetailsBill(hd.MA_HD);
             bill.MA_HD = hd.MA_HD;
-            bill.ID_KH = hd.ID_KH;
+          
             bill.NGAY_MUA = hd.NGAY_MUA;
             bill.GHI_CHU = hd.GHI_CHU; 
             bill.DIA_CHI_NHAN = hd.DIA_CHI_NHAN;
@@ -58,7 +58,6 @@ namespace Models.DAL
             bill.TEN_NHAN_HANG = hd.TEN_NHAN_HANG;
             bill.TONG_TIEN = (hd.TONG_TIEN ?? 0);
             bill.TRANG_THAI = hd.TRANG_THAI;
-            bill.customer = this.context.KHACH_HANG.Find(hd.ID_KH);
             bill.TenStatus = this.context.STATUS_HOA_DON.Find(hd.TRANG_THAI).STATUS_ORDER;
             var listDetalis = new List<ModelDetailsBill>();
             foreach(var item in listDetailsBill)
@@ -66,7 +65,7 @@ namespace Models.DAL
                 var details = new ModelDetailsBill();
                 var spct = new DAL_SanPhamChiTiet().returnSPCT(item.ID_SP_CT);
                 details.SL_MUA = (item.SL_MUA ?? 0);
-                var sanpham = this.context.SAN_PHAM.Find(spct.MA_SP);
+                var sanpham = this.context.SAN_PHAM.Where( c=> c.MA_SP == spct.MA_SP ).FirstOrDefault();
                 var color = this.context.COLORs.Find(spct.ID_COLOR);
                 var size = this.context.SIZEs.Find(spct.ID_SIZE);
                 details.Images = (sanpham != null) ?sanpham.LINK_ANH_CHINH : "";
@@ -94,6 +93,7 @@ namespace Models.DAL
         {
             try
             {
+                hd.IS_REMOVE = false;
                 hd.NGAY_MUA = DateTime.Now;
                 var hoadon = this.context.HOA_DON.Add(hd);
                 this.context.SaveChanges();
@@ -120,11 +120,11 @@ namespace Models.DAL
                     {
                         foreach(CHI_TIET_HOA_DON item in list)
                         {
-                            this.context.CHI_TIET_HOA_DON.Remove(item);
+                            item.IS_REMOVE = false;
                             this.context.SaveChanges();
                         }
                     }
-                    this.context.HOA_DON.Remove(hoadon);
+                    hoadon.IS_REMOVE = false;
                     this.context.SaveChanges();
                 }
                 return true;
@@ -234,6 +234,7 @@ namespace Models.DAL
                     if (status == 3)
                     {
                         UpdateStatus(id, status);
+                       
                         return true;
                     }
                     else if (status == 4)

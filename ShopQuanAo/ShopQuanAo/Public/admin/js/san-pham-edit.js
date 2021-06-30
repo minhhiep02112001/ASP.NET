@@ -169,6 +169,21 @@ jQuery(document).ready(function ($) {
         outPutLayoutCreateFormDetails();
     });
 
+    $(".btn-add-row-edit-details").click(function (e) {
+        e.preventDefault();
+        addRowEditDetails();
+    });
+
+    $(document).on("click", ".btn-delete-row-size-quantity", function (e) {
+        e.preventDefault();
+        var count = $(".table-details-product-edit").children("tr").length;
+        if (count == 1) {
+            Swal.fire("", "", "error");
+            return;
+        }
+        $(this).parent().parent().remove();
+    });
+
     $(document).on("click", ".btn-delete-row-size-quantity-create", function (e) {
         e.preventDefault();
         var count = $(".table-details-product-create").children("tr").length;
@@ -252,7 +267,28 @@ function outPutLayoutEditFormDetails(masp , id) {
         }
     })
 }
+function addRowEditDetails() {
 
+    var html = "";
+    html += "<tr>";
+    html += "<td>";
+    html += '<select class="form-select form-select-sm size-edit" name="size-edit" aria-label=".form-select-sm example">';
+    html += onloadSelectOptionSize(0);
+    html += '</select>';
+    html += "</td>";
+
+    html += "<td>";
+    html += '<input type="number" name="quantity-edit" min="0" placeholder="Số lượng" class="quantity-edit form-control-sm form-control">';
+    html += "</td>";
+    html += '<td align="center">';
+    html += '<button class="item btn-delete-row-size-quantity-edit" data-toggle="tooltip" data-placement="top" title = "" data-original-title="Delete" >';
+    html += '<i class="zmdi zmdi-delete"></i>';
+    html += '</button>';
+    html += "</td>";
+    html += "</tr>";
+    $(".table-details-product-edit").append(html);
+
+}
 function outPutLayoutCreateFormDetails() {
     
     var html = "";

@@ -33,13 +33,14 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 var dal = new DAL_Users();
                 userLogin.MatKhau = MaHoaMD5.GetHash(userLogin.MatKhau);
                 var user = dal.getAcountEmail(userLogin.TaiKhoan);
-                if (user != null)
+                if (user != null && user.TRANG_THAI == true)
                 {
-                    if (user.MAT_KHAU == userLogin.MatKhau)
+                    if (user.MAT_KHAU == userLogin.MatKhau )
                     {
                         var userSession = new UserSession();
                         userSession.UserName = user.HO_TEN;
                         userSession.UserID = user.ID;
+                        userSession.image = user.LINK_ANH;
                         Session.Add(CommonConstants.USER_SESSION, userSession);
                         return RedirectToAction("Index", "TrangChu");
                     }
@@ -48,7 +49,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
                         ModelState.AddModelError("", "Mật khẩu không đúng!");
                     }
                 }
-
+             
                 else
                     {
                     ModelState.AddModelError("", "Tài khoản không tồn tại!");

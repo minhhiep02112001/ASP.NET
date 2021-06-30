@@ -17,7 +17,6 @@ namespace Models.EntityFramework
         public virtual DbSet<CHI_TIET_HOA_DON> CHI_TIET_HOA_DON { get; set; }
         public virtual DbSet<COLOR> COLORs { get; set; }
         public virtual DbSet<HOA_DON> HOA_DON { get; set; }
-        public virtual DbSet<KHACH_HANG> KHACH_HANG { get; set; }
         public virtual DbSet<LOAI_SAN_PHAM> LOAI_SAN_PHAM { get; set; }
         public virtual DbSet<SAN_PHAM> SAN_PHAM { get; set; }
         public virtual DbSet<SAN_PHAM_CHI_TIET> SAN_PHAM_CHI_TIET { get; set; }
@@ -53,10 +52,6 @@ namespace Models.EntityFramework
                 .Property(e => e.IMAGES)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<BAI_VIET>()
-                .Property(e => e.NOI_DUNG)
-                .IsUnicode(false);
-
             modelBuilder.Entity<CHI_TIET_HOA_DON>()
                 .Property(e => e.GIA_BAN)
                 .HasPrecision(15, 4);
@@ -86,18 +81,6 @@ namespace Models.EntityFramework
             modelBuilder.Entity<HOA_DON>()
                 .Property(e => e.TONG_TIEN)
                 .HasPrecision(15, 4);
-
-            modelBuilder.Entity<KHACH_HANG>()
-                .Property(e => e.IMAGES)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<KHACH_HANG>()
-                .Property(e => e.EMAIL)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<KHACH_HANG>()
-                .Property(e => e.MK)
-                .IsUnicode(false);
 
             modelBuilder.Entity<LOAI_SAN_PHAM>()
                 .Property(e => e.SLUG)

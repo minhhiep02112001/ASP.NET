@@ -12,7 +12,7 @@ using ShopQuanAo.Areas.admin.Data;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class LoaiSanPhamController : Controller
+    public class LoaiSanPhamController : BaseController
     {
         private ShopQuanAoDBContext db = new ShopQuanAoDBContext();
 
@@ -50,7 +50,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
 
         public void SetSelectOption(int? selected = null)
         {
-            var ListSelectOption = new DeQuySelectOption().ListSelectOption();
+            var ListSelectOption = new DeQuySelectOption().ListSelectOption().Where(c=>c.IS_REMOVE ==false).ToList() ;
             var lsp = new SelectOptionLoaiSanPham();
             lsp.ID_CHA = 0;
             lsp.TEN_LOAI_SP = " --- Không thuộc loại nào ---";
@@ -71,6 +71,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 var check = DB.Check_isset_danh_muc_insert(lOAI_SAN_PHAM.SLUG);
                 if (check)
                 {
+                    lOAI_SAN_PHAM.IS_REMOVE = false;
                     bool insert = DB.insertLoaiSanPham(lOAI_SAN_PHAM);
                     if (check)
                     {

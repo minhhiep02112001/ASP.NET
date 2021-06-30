@@ -63,7 +63,6 @@
     <Compile Include="ADO\ModelsSanPham.cs" />
     <Compile Include="DAL\DAL_Bill.cs" />
     <Compile Include="DAL\DAL_Color.cs" />
-    <Compile Include="DAL\DAL_Customer.cs" />
     <Compile Include="DAL\DAL_DetailsBill.cs" />
     <Compile Include="DAL\DAL_LoaiSanPham.cs" />
     <Compile Include="DAL\DAL_SanPham.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="EntityFramework\CHI_TIET_HOA_DON.cs" />
     <Compile Include="EntityFramework\COLOR.cs" />
     <Compile Include="EntityFramework\HOA_DON.cs" />
-    <Compile Include="EntityFramework\KHACH_HANG.cs" />
     <Compile Include="EntityFramework\LOAI_SAN_PHAM.cs" />
     <Compile Include="EntityFramework\SAN_PHAM.cs" />
     <Compile Include="EntityFramework\SAN_PHAM_CHI_TIET.cs" />

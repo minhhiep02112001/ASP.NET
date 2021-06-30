@@ -29,8 +29,6 @@ namespace Models.ADO
 
         public string TenStatus { get; set; }
 
-        public KHACH_HANG customer { get; set; }
-
         public List<ModelDetailsBill> listDetalisBill { get; set; }
     }
 

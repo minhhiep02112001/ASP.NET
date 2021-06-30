@@ -25,8 +25,6 @@ namespace ShopQuanAo.Data
 
         public System.Data.Entity.DbSet<Models.EntityFramework.SLIDE> SLIDEs { get; set; }
 
-        public System.Data.Entity.DbSet<Models.EntityFramework.KHACH_HANG> KHACH_HANG { get; set; }
-
         public System.Data.Entity.DbSet<Models.EntityFramework.ACOUNT> ACOUNTs { get; set; }
 
         public System.Data.Entity.DbSet<Models.EntityFramework.HOA_DON> HOA_DON { get; set; }

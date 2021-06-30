@@ -12,11 +12,11 @@ namespace Models.EntityFramework
         public int ID_LOAI_SP { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(250)]
         public string TEN_LOAI_SP { get; set; }
 
         [Required]
-        [StringLength(40)]
+        [StringLength(250)]
         public string SLUG { get; set; }
 
         public bool? TRANG_THAI { get; set; }
@@ -24,5 +24,7 @@ namespace Models.EntityFramework
         public int? ID_CHA { get; set; }
 
         public DateTime? NGAY_TAO { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

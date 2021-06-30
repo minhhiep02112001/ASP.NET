@@ -23,5 +23,7 @@ namespace Models.EntityFramework
         public int? SL_MUA { get; set; }
 
         public decimal? GIA_BAN { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ShopQuanAo.Areas.admin.Controllers
 {
-    public class SizeController : Controller
+    public class SizeController : BaseController
     {
         // GET: admin/Size
         
@@ -69,7 +69,7 @@ namespace ShopQuanAo.Areas.admin.Controllers
                 return Json(new
                 {
                     status = "error",
-                    text = "Không thể thêm color !!!"
+                    text = "Không thể thêm Size !!!"
                 }, JsonRequestBehavior.AllowGet);
             }
         }

@@ -15,11 +15,11 @@ namespace Models.EntityFramework
         public int ID_LSP { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(250)]
         public string TEN_SP { get; set; }
 
         [Required]
-        [StringLength(70)]
+        [StringLength(250)]
         public string SLUG { get; set; }
 
         [StringLength(255)]
@@ -28,10 +28,10 @@ namespace Models.EntityFramework
         [Column(TypeName = "ntext")]
         public string MO_TA_CHI_TIET { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string LINK_ANH_CHINH { get; set; }
 
-        [StringLength(250)]
+        [Column(TypeName = "text")]
         public string LIST_ANH_KEM { get; set; }
 
         public int? SO_LUONG_TONG { get; set; }
@@ -52,5 +52,7 @@ namespace Models.EntityFramework
         public bool? NOI_BAT { get; set; }
 
         public DateTime? NGAY_TAO { get; set; }
+
+        public bool? IS_REMOVE { get; set; }
     }
 }
